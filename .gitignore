@@ -5,9 +5,9 @@
 *.swp
 *~.nib
 
-.project
+# .project
 .metadata
-.classpath
+# .classpath
 .settings/
 .loadpath
 
