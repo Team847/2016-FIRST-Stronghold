@@ -6,21 +6,27 @@ public class ObstacleArm {
 	
 	CANTalon Elbow = new CANTalon(1);
 	CANTalon Shoulder = new CANTalon(2);
-	double pReader = Shoulder.getPosition();
+	double pReader = 0;
 	boolean shoulderFWD = false;
 	boolean shoulderREV = false;
 	boolean elbowFWD = false;
 	boolean elbowREV = false;
 	boolean buttonMash = false;
+	/*Note to Stephen: When you pull all the pieces together for the robot map
+	 *You'll have to create two xbox controller classes, one being the drive 
+	 *controller and the other being the object manip controller. This class here
+	 *needs to get all it's values from the object manip controller.*/
 	
 	public ObstacleArm(){
 	}
 
 	public void shoulderJoint(boolean reachUP, boolean reachDOWN){
+		
 		/*  Robot Frame should send me boolean reachUP so this code
 		    can decide how the arm should move. */
 		shoulderFWD = Shoulder.isFwdLimitSwitchClosed();
 		shoulderREV = Shoulder.isRevLimitSwitchClosed();
+		pReader = Shoulder.getPosition();
 		
 		/*stops the motors from doing anything if BOTH buttons are pressed
 		 * cuz who knows what would happen if both were pressed at the same
@@ -61,7 +67,23 @@ public class ObstacleArm {
 			}
 		}
 	}
+		return;
 }
+	
+	public void presets(boolean upPos, boolean drivePos, double upPosition, double drivePosition){
+		
+		if(upPos == true && pReader > drivePosition && pReader < upPosition){
+			Shoulder.set(.2);
+		}
+		else{
+			if(drivePos == true && pReader > drivePosition && pReader < upPosition){
+				Shoulder.set(-.2);
+			}
+			else{
+				Shoulder.set(0);
+			}
+		}
+	}
 	
 	/*   (UNUSED CLASS)VVVVVVVVV  
 	 *It turns out we aren't using this elbow joint but it's still here cuz 
