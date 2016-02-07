@@ -2,12 +2,13 @@ package org.usfirst.frc.team847.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Victor;
 
 public class DriveTrain {
-	
-CANTalon backMotor;
-CANTalon leftMotor;
-CANTalon rightMotor;
+
+Victor backMotor;
+Victor leftMotor;
+Victor rightMotor;
 CANTalon turnMotor;
 Encoder turnCounter;
 
@@ -21,7 +22,7 @@ double frameWidth = 23;
 double speedLeft;
 double speedRight;
 double speedBack;
-double radianradianDirection;
+double radianDirection;
 double longRadius;
 double middleRadius;
 double shortRadius;
@@ -29,21 +30,21 @@ int ninetyClicks;
 
 public void TriDrive() {
 	
-	backMotor = new CANTalon(1);
-	leftMotor = new CANTalon(2);
-	rightMotor = new CANTalon(4);
+	backMotor = new Victor(1);
+	leftMotor = new Victor(2);
+	rightMotor = new Victor(4);
 	turnMotor = new CANTalon(3);
 	
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
 	turnMotor.set(0);
-
+	turnCounter.reset();
 }	
 
-public void turnWheel(double radianDirection){
+public void turnWheel(double direction){
 	
-	int turn = (int)radianDirection*ninetyClicks;
+	int turn = (int)direction*ninetyClicks;
 	int position = turnMotor.getEncPosition();
 	
 	if(position>ninetyClicks){
@@ -64,19 +65,19 @@ public void turnWheel(double radianDirection){
 	
 
 }
-public void driveWheels(double speed, double radianDirection){
+public void driveWheels(double speed){
 
-	
-radianradianDirection = turnMotor.getEncPosition()*Math.PI/(ninetyClicks*2);
+
+radianDirection = turnMotor.getEncPosition()*Math.PI/(ninetyClicks*2);
 //this checks to make it go straight
-if (radianradianDirection > -0.01 && radianDirection <0.1){
+if (radianDirection > -0.01 && radianDirection <0.1){
 speedLeft = speed;
 speedRight = speed;
 speedBack = speed;
 }
 if (radianDirection >= 0.01 && radianDirection <= Math.PI/2 ) {
-middleRadius = frameLength/(Math.sin(radianradianDirection));
-shortRadius = (middleRadius*Math.cos(radianradianDirection))-(frameWidth/2);
+middleRadius = frameLength/(Math.sin(radianDirection));
+shortRadius = (middleRadius*Math.cos(radianDirection))-(frameWidth/2);
 longRadius = (shortRadius+frameWidth);
 speedRight = speed;
 speedLeft = speed * shortRadius/middleRadius;
@@ -98,8 +99,8 @@ rightMotor.set(speedRight);
 
 
 if (radianDirection <= -0.01 && radianDirection >= Math.PI/-2) {
-middleRadius = frameLength/(Math.sin(radianradianDirection));
-shortRadius = (middleRadius*Math.cos(radianradianDirection))-(frameWidth/2);
+middleRadius = frameLength/(Math.sin(radianDirection));
+shortRadius = (middleRadius*Math.cos(radianDirection))-(frameWidth/2);
 longRadius = (shortRadius+frameWidth);
 speedRight = speed;
 speedLeft = speed * shortRadius/middleRadius;
