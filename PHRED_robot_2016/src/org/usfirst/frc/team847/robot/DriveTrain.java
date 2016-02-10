@@ -58,10 +58,10 @@ public void turnWheel(double direction){
 		turnMotor.set(0);
 	}
 	if(position>turn){
-		turnMotor.set(0.25);
+		turnMotor.set(0.5);
 	}
 	if(position<turn){	
-		turnMotor.set(-0.25);
+		turnMotor.set(-0.5);
 	}
 	if(position==turn){
 		turnMotor.set(0);
