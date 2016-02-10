@@ -69,8 +69,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    //scrubTrain.turnWheel(turn.getRawAxis(4)); 
-    scrubTrain.turnWheel(-1);
+    scrubTrain.turnWheel(turn.getRawAxis(4)); 
+    //scrubTrain.turnWheel(-1);
     }
     
     /**
