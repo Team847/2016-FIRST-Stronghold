@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     //scrubTrain.turnWheel(turn.getRawAxis(4)); 
-    scrubTrain.turnWheel(1);
+    scrubTrain.turnWheel(-1);
     }
     
     /**
