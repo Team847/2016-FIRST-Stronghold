@@ -72,11 +72,11 @@ public class ObstacleArm {
 	
 	public void presets(boolean upPos, boolean drivePos, double upPosition, double drivePosition){
 		
-		if(upPos == true && pReader > drivePosition && pReader < upPosition){
+		if(upPos == true && pReader < upPosition){
 			Shoulder.set(.2);
 		}
 		else{
-			if(drivePos == true && pReader > drivePosition && pReader < upPosition){
+			if(drivePos == true && pReader > drivePosition){
 				Shoulder.set(-.2);
 			}
 			else{
