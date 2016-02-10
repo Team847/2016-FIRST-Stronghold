@@ -36,19 +36,19 @@ public DriveTrain() {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	ninetyClicks = 341;
+	ninetyClicks = 1100;
 	turnMotor.setPosition(0);
 }	
 
 public void testMotor(){
-	turnMotor.set(0.25);
+	turnMotor.set(-0.25);
 return;
 }
 
 public void turnWheel(double direction){
 	
 	
-	int turn = (int)direction*ninetyClicks;
+	int turn = -(int)direction*ninetyClicks;
 	int position = turnMotor.getEncPosition();
 	
 	if(position>ninetyClicks){
@@ -58,10 +58,10 @@ public void turnWheel(double direction){
 		turnMotor.set(0);
 	}
 	if(position>turn){
-		turnMotor.set(-0.5);
+		turnMotor.set(0.25);
 	}
-	if(position<turn){
-		turnMotor.set(0.5);
+	if(position<turn){	
+		turnMotor.set(-0.25);
 	}
 	if(position==turn){
 		turnMotor.set(0);
