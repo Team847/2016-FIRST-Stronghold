@@ -1,7 +1,6 @@
 package org.usfirst.frc.team847.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
 
 public class DriveTrain {
@@ -10,7 +9,6 @@ Victor backMotor;
 Victor leftMotor;
 Victor rightMotor;
 CANTalon turnMotor;
-Encoder turnCounter;
 
 
 double speed1;
@@ -28,7 +26,7 @@ double middleRadius;
 double shortRadius;
 int ninetyClicks;
 
-public void TriDrive() {
+public DriveTrain() {
 	
 	backMotor = new Victor(1);
 	leftMotor = new Victor(2);
@@ -38,11 +36,17 @@ public void TriDrive() {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	turnMotor.set(0);
-	turnCounter.reset();
+	ninetyClicks = 341;
+	turnMotor.setPosition(0);
 }	
 
+public void testMotor(){
+	turnMotor.set(0.25);
+return;
+}
+
 public void turnWheel(double direction){
+	
 	
 	int turn = (int)direction*ninetyClicks;
 	int position = turnMotor.getEncPosition();
@@ -54,17 +58,18 @@ public void turnWheel(double direction){
 		turnMotor.set(0);
 	}
 	if(position>turn){
-		turnMotor.set(-.25);
+		turnMotor.set(-0.5);
 	}
 	if(position<turn){
-		turnMotor.set(.25);
+		turnMotor.set(0.5);
 	}
 	if(position==turn){
 		turnMotor.set(0);
 	}
 	
-
+return;
 }
+
 public void driveWheels(double speed){
 
 
@@ -75,13 +80,14 @@ speedLeft = speed;
 speedRight = speed;
 speedBack = speed;
 }
+
+//Right Turn Code
 if (radianDirection >= 0.01 && radianDirection <= Math.PI/2 ) {
 middleRadius = frameLength/(Math.sin(radianDirection));
 shortRadius = (middleRadius*Math.cos(radianDirection))-(frameWidth/2);
 longRadius = (shortRadius+frameWidth);
 speedRight = speed;
 speedLeft = speed * shortRadius/middleRadius;
-//Rg I'm A Pirate (An Orca PIRATE)
 speedBack = speed * middleRadius/longRadius;
 if (speedBack>speedRight){
 speed1 = speedBack;
@@ -94,23 +100,18 @@ backMotor.set(speedBack);
 leftMotor.set(speedLeft);
 rightMotor.set(speedRight);
 
-
-
-
-
+// Left turn Code
 if (radianDirection <= -0.01 && radianDirection >= Math.PI/-2) {
 middleRadius = frameLength/(Math.sin(radianDirection));
 shortRadius = (middleRadius*Math.cos(radianDirection))-(frameWidth/2);
 longRadius = (shortRadius+frameWidth);
 speedRight = speed;
 speedLeft = speed * shortRadius/middleRadius;
-//Rg I'm A Pirate (An Orca PIRATE)
 speedBack = speed * middleRadius/longRadius;
 if (speedBack>speedRight){
 speed1 = speedBack;
 speedBack = speedLeft;
 speedLeft = speed1;
-
 }
 }
 backMotor.set(speedBack);
