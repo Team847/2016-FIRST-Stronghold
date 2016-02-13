@@ -1,8 +1,7 @@
 
 package org.usfirst.frc.team847.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.*;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,16 +17,20 @@ public class Robot extends IterativeRobot {
     //final String customAuto = "My Auto";
   //  String autoSelected;
   //  SendableChooser chooser;
-    Joystick turn;
+//    CANTalon rudder;
+	Joystick turn;
 	DriveTrain scrubTrain;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+//	Victor testMotor; 
     public void robotInit() {
     	
+//    rudder = new CANTalon(3);	
     	turn = new Joystick(1);
     	scrubTrain = new DriveTrain();
+  //  	  testMotor = new Victor(1);
   //      chooser = new SendableChooser();
     //    chooser.addDefault("Default Auto", defaultAuto);
       //  chooser.addObject("My Auto", customAuto);
@@ -69,15 +72,18 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    scrubTrain.turnWheel(turn.getRawAxis(4)); 
-    //scrubTrain.turnWheel(-1);
+        scrubTrain.turnWheel(-turn.getRawAxis(4));
+        scrubTrain.driveWheels(turn.getRawAxis(1));
+//  scrubTrain.turnWheel(.5);
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    
+    	scrubTrain.testMotor();
+  //  	testMotor.set(0.5);
+
     }
     
 }
