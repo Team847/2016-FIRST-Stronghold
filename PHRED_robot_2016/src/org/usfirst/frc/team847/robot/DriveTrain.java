@@ -10,7 +10,7 @@ Victor leftMotor;
 Victor rightMotor;
 CANTalon turnMotor;
 
-
+//int flag;
 double speed1;
 double speed2;
 double speed3;
@@ -39,7 +39,7 @@ public DriveTrain() {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	ninetyClicks = 1100;
+	ninetyClicks = 600;
 	turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
 	turnMotor.setPosition(0);
 	turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
@@ -59,26 +59,54 @@ return;
 }
 
 public void turnWheel(double direction){
-	
-	
-	int turn = -(int)direction*ninetyClicks;
+	int turn = (int)direction*ninetyClicks;
+	System.out.println("direction: " + direction);
+	System.out.println("forward: " + turnMotor.isFwdLimitSwitchClosed());
+	System.out.println("reverse: " + turnMotor.isRevLimitSwitchClosed());
+	System.out.println("turn: " + turn);
 	int position = turnMotor.getEncPosition();
 	
-	
-	
-	if((position>ninetyClicks || turnMotor.isFwdLimitSwitchClosed()) && direction<0){
-		turn = 0;
-		turnMotor.set(turn);
+	/*if(turnMotor.isFwdLimitSwitchClosed() && direction<0) {
+		flag = 2;
+	}
+	else if(turnMotor.isRevLimitSwitchClosed() && direction > 0){
+		flag = 1;
+	}
+	else
+		flag = 3;
 		
+
+	switch(flag) {
+		case 1:
+			
+			if(direction > 0)
+			 	turnMotor.set(0.1);
+			else {
+				turn = 0;
+				break;
+			}
+		case 2:
+			
+			if(direction < 0)
+				turnMotor.set(-0.1);
+			else {
+				turn = 0;
+				break;
+			}
+		case 3:
+			turnMotor.set(turn);
+			break;
+	}*/
+	/*if(turnMotor.isFwdLimitSwitchClosed() && direction<=0){	
+		System.out.println(" Clockwise");
 	}
-	else
-		turnMotor.set(turn);
-	if((position<-ninetyClicks || turnMotor.isRevLimitSwitchClosed()) && direction > 0){
-		turn = 0;
-		turnMotor.set(turn);
+
+	else if(turnMotor.isRevLimitSwitchClosed() && direction>=0){
+		System.out.println(" counterClockwise");
 	}
-	else
-		turnMotor.set(turn);
+	else*/
+	if (position>-ninetyClicks && position<ninetyClicks)
+	turnMotor.set(turn);
 	
 	/*if(turnMotor.isRevLimitSwitchClosed() && direction<0){
 		turnMotor.set(0);
@@ -94,8 +122,8 @@ public void turnWheel(double direction){
 	
 	else{
 	turnMotor.set(turn);
-	}
-	*/
+	}*/
+	
     return; 
 }
 
