@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	double feedsd = turncontrol.quadraticLY();
-    	double feeddir = (turncontrol.rightStickX());
+    	double feeddir = (turncontrol.rightStickX()/2);
     		if(Math.abs(feeddir) <= 0.05){
     			feeddir = 0;
     		}
