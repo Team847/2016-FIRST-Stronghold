@@ -1,10 +1,9 @@
 
 package org.usfirst.frc.team847.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.*;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -14,23 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-    final String defaultAuto = "Default";
-    final String customAuto = "My Auto";
-    String autoSelected;
-    SendableChooser chooser;
-    Joystick turn = new Joystick (1);
-	DriveTrain scrubTrain = new DriveTrain();
 	
+	GamePad turncontrol;
+	DriveTrain scrubTrain;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+
     public void robotInit() {
     	
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", defaultAuto);
-        chooser.addObject("My Auto", customAuto);
-        SmartDashboard.putData("Auto choices", chooser);
+    	turncontrol = new GamePad(1);
+    	scrubTrain = new DriveTrain();
     }
     
 	/**
@@ -43,38 +37,34 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	autoSelected = (String) chooser.getSelected();
-//		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	switch(autoSelected) {
-    	case customAuto:
-        //Put custom auto code here   
-            break;
-    	case defaultAuto:
-    	default:
-    	//Put default auto code here
-            break;
-    	}
     }
 
-    /**
+    /***
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    scrubTrain.turnWheel(turn.getRawAxis(4)); 
+    	double feedsd = turncontrol.quadraticLY();
+    	double feeddir = (turncontrol.rightStickX()/2);
+    		if(Math.abs(feeddir) <= 0.05){
+    			feeddir = 0;
+    		}
+        scrubTrain.turnWheel(feeddir);
+        scrubTrain.driveWheels(feedsd);
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    
+    	scrubTrain.testMotor();
+
     }
     
 }

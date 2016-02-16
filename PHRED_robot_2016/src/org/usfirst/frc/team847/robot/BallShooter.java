@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.*;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class BallShooter extends RobotMap{
+public class BallShooter{
     Relay rollerMotor;
     Victor tiltMotor;
     Victor bottomShooterMotor;
@@ -43,6 +43,7 @@ public class BallShooter extends RobotMap{
     public void shootingMethod() {
 
         System.out.println("lazer = " + lazer.get());
+
         if(intakeJoystick.getRawButton(5)) {
             flag = intake;
         }else if(intakeJoystick.getRawButton(6)) {
@@ -61,17 +62,18 @@ public class BallShooter extends RobotMap{
                 if(i <= 25) {
                     i++;
                     rollerMotor.set(Relay.Value.kOff);
-                } else {
+                }else{
                     rollerMotor.set(Relay.Value.kForward);                
                 }
                 break;
-            case 2: //expell: 
+
+			case 2: //expell: 
                 rollerMotor.set(Relay.Value.kReverse);
                     
                 break;
-                //break;
-            case 3: //intake: 
-                  if(!lazer.get()) {
+
+			case 3: //intake: 
+                if(!lazer.get()) {
                     rollerMotor.set(Relay.Value.kForward);
                     break;
                 }    
