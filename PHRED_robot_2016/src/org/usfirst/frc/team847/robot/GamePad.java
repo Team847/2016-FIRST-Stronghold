@@ -1,4 +1,4 @@
-package org.usfirst.frc.team847.robot;
+package org.usfirst.frc.team847.robot;																									
 import edu.wpi.first.wpilibj.Joystick;
 
 public class GamePad extends Joystick {
@@ -22,7 +22,7 @@ public class GamePad extends Joystick {
 	private final static int buttonStart = 8;  //start button
 	private final static int pressLStick = 9;  //left Stick Pressed
 	private final static int pressRStick = 10; //right Stick Pressed
-
+	
 	// Dpad mapping 
 	private final static int dPad        = 0;  // dPad: Returns Angle in degrees {0,45,90,...,315}
 
@@ -47,6 +47,7 @@ public class GamePad extends Joystick {
 	// Axis methods: Joy sticks and triggers
 	// After being run through a range tester they return values between -max and max.
 	// Axis values in the 'deadzone', which is defined as -min to min, are reset to 0.
+	
 	public double leftStickX() {				
 		return rangeTester(getRawAxis(lStickX));
 	}
@@ -70,7 +71,38 @@ public class GamePad extends Joystick {
 	public double rightStickY() {
 		return rangeTester(getRawAxis(rStickY));
 	}
-
+	
+	//Gets the squared  (^2)  value of every axis on the controller
+	public double quadraticLX(){
+		double LX = getRawAxis(lStickX);
+		return (LX*Math.abs(LX));
+	}
+	
+	public double quadraticLY(){
+		double LY = getRawAxis(lStickY);
+		return (LY*Math.abs(LY));
+	}
+	
+	public double quadraticRX(){
+		double RX = getRawAxis(rStickX);
+		return (RX*Math.abs(RX));
+	}
+	
+	public double quadraticRY(){
+		double RY = getRawAxis(rStickY);
+		return (RY*Math.abs(RY));
+	}
+	
+	public double quadraticLT(){
+		double LT = getRawAxis(lTrigger);
+		return (LT*Math.abs(LT));
+	}
+	
+	public double quadraticRT(){
+		double LT = getRawAxis(lTrigger);
+		return (LT*Math.abs(LT));
+	}
+	
 	// Validate the Axis values
 	private double rangeTester(double value) {
 		if(Math.abs(value) <= min)
