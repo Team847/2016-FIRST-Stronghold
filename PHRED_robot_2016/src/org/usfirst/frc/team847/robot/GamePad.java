@@ -48,12 +48,14 @@ public class GamePad extends Joystick {
 	// After being run through a range tester they return values between -max and max.
 	// Axis values in the 'deadzone', which is defined as -min to min, are reset to 0.
 	
-	public double leftStickX() {				
-		return rangeTester(getRawAxis(lStickX));
+	public double leftStickX() {
+		double LX = getRawAxis(lStickX);
+		return LX;
 	}
 
 	public double leftStickY() {
-		return rangeTester(getRawAxis(lStickY));
+		double LY = getRawAxis(lStickY);
+		return LY;
 	}
 
 	public double rightTrigger() {
@@ -74,18 +76,30 @@ public class GamePad extends Joystick {
 	
 	//Gets the squared  (^2)  value of every axis on the controller
 	public double quadraticLX(){
-		double LX = getRawAxis(lStickX);
-		return (LX*Math.abs(LX));
+		double LX1x2 = getRawAxis(lStickX);
+		double LXf = (LX1x2*Math.abs(LX1x2));
+		if(Math.abs(LXf) <= 0.05){
+			LXf = 0;
+		}
+		return LXf;
 	}
 	
 	public double quadraticLY(){
-		double LY = getRawAxis(lStickY);
-		return (LY*Math.abs(LY));
+		double LY1x2 = getRawAxis(lStickY);
+		double LYf = (LY1x2*Math.abs(LY1x2));
+		if(Math.abs(LYf) <= 0.05){
+			LYf = 0;
+		}
+		return LYf;
 	}
 	
 	public double quadraticRX(){
-		double RX = getRawAxis(rStickX);
-		return (RX*Math.abs(RX));
+		double RX1x2 = getRawAxis(rStickX);
+		double RXf = (RX1x2*Math.abs(RX1x2));
+		if(Math.abs(RXf) <= 0.05){
+			RXf = 0;
+		}
+		return RXf;
 	}
 	
 	public double quadraticRY(){
