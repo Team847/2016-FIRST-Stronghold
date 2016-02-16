@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-	Joystick turn;
+	
+	GamePad turncontrol;
 	DriveTrain scrubTrain;
     /**
      * This function is run when the robot is first started up and should be
@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 
     public void robotInit() {
     	
-    	turn = new Joystick(1);
+    	turncontrol = new GamePad(1);
     	scrubTrain = new DriveTrain();
     }
     
@@ -44,27 +44,19 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
     }
 
     /***
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	double feedsd = turn.getRawAxis(4);
-    	double feedfwd = turn.getRawAxis(1);
-    	
-    	if(Math.abs(feedsd) <= 0.05){
-    		feedsd = 0;
-    	}
-    	
-    	if(Math.abs(feedfwd) <= 0.05){
-    		feedfwd = 0;
-    	}
-    	
-        scrubTrain.turnWheel(feedsd);
-        scrubTrain.driveWheels(feedfwd);
-//  scrubTrain.turnWheel(.5);
+    	double feedsd = turncontrol.quadraticLY();
+    	double feeddir = (turncontrol.rightStickX());
+    		if(Math.abs(feeddir) <= 0.05){
+    			feeddir = 0;
+    		}
+        scrubTrain.turnWheel(feeddir);
+        scrubTrain.driveWheels(feedsd);
     }
     
     /**
