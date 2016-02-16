@@ -1,5 +1,4 @@
 package org.usfirst.frc.team847.robot;
-
 public interface RobotMap {
 
 //==========================DRIVE TRAIN======================//	
@@ -11,7 +10,7 @@ public interface RobotMap {
 	 
 	//==================sensors=============================\\
 	
-	
+
 	
 	
 	
@@ -19,12 +18,16 @@ public interface RobotMap {
 	
 	
 	//============================Ball shooter===========//
-	
-	
-	
-	
-	
-	
+	 
+	 public final static int FLAG = 0;
+	 public final static int SHOOT = 1;
+	 public final static int INTAKE = 3;
+	 public final static int EXPELL = 2 ;
+	 public final static int I = 0;
+	    
+
+	    
+	    
 	//=================================ARM=================================//
 	
 	public final static boolean ELBOW_REV = false;
