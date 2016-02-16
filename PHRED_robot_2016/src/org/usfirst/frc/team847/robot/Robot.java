@@ -13,28 +13,18 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class Robot extends IterativeRobot {
-   // final String defaultAuto = "Default";
-    //final String customAuto = "My Auto";
-  //  String autoSelected;
-  //  SendableChooser chooser;
-//    CANTalon rudder;
+
 	Joystick turn;
 	DriveTrain scrubTrain;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-//	Victor testMotor; 
+
     public void robotInit() {
     	
-//    rudder = new CANTalon(3);	
     	turn = new Joystick(1);
     	scrubTrain = new DriveTrain();
-  //  	  testMotor = new Victor(1);
-  //      chooser = new SendableChooser();
-    //    chooser.addDefault("Default Auto", defaultAuto);
-      //  chooser.addObject("My Auto", customAuto);
-        //SmartDashboard.putData("Auto choices", chooser);
     }
     
 	/**
@@ -47,33 +37,33 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	//autoSelected = (String) chooser.getSelected();
-//		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-	//	System.out.println("Auto selected: " + autoSelected);
+
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
- /*   	switch(autoSelected) {
-    	case customAuto:
-        //Put custom auto code here   
-            break;
-    	case defaultAuto:
-    	default:
-    	//Put default auto code here
-            break;
-            }
-*///    Math.PI 	3.14159265897942
+
     }
 
     /***
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        scrubTrain.turnWheel(turn.getRawAxis(4));
-        scrubTrain.driveWheels(turn.getRawAxis(1));
+    	double feedsd = turn.getRawAxis(4);
+    	double feedfwd = turn.getRawAxis(1);
+    	
+    	if(Math.abs(feedsd) <= 0.05){
+    		feedsd = 0;
+    	}
+    	
+    	if(Math.abs(feedfwd) <= 0.05){
+    		feedfwd = 0;
+    	}
+    	
+        scrubTrain.turnWheel(feedsd);
+        scrubTrain.driveWheels(feedfwd);
 //  scrubTrain.turnWheel(.5);
     }
     
@@ -82,7 +72,6 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
     	scrubTrain.testMotor();
-  //  	testMotor.set(0.5);
 
     }
     
