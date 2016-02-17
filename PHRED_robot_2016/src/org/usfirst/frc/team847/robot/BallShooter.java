@@ -21,20 +21,19 @@ public class BallShooter{
     Victor tiltMotor;
     Victor bottomShooterMotor;
     Victor topShooterMotor;
-    Joystick intakeJoystick;
     DigitalInput lazer;
     int flag = 0;
     int shoot = 1;
     int intake = 3;
     int expell = 2 ;
     int i = 0;
+     GamePad shooter;
     
-    
-    public BallShooter() {
-		tiltMotor = new Victor(3);
+    public BallShooter(GamePad objectManipulation) {
+		shooter = objectManipulation;
+    	tiltMotor = new Victor(3);
 		bottomShooterMotor = new Victor(2);
 		topShooterMotor = new Victor(1);
-		intakeJoystick = new Joystick(1);
 		rollerMotor = new Relay(1);
 		lazer = new DigitalInput(12);
     
@@ -44,11 +43,11 @@ public class BallShooter{
 
         System.out.println("lazer = " + lazer.get());
 
-        if(intakeJoystick.getRawButton(5)) {
+        if(shooter.lBumper()) {
             flag = intake;
-        }else if(intakeJoystick.getRawButton(6)) {
+        }else if(shooter.rBumper()) {
             flag = expell;
-        }else if(intakeJoystick.getRawButton(2)) {
+        }else if(shooter.bButton()) {
             flag = shoot;
         }else{
             flag = 0;

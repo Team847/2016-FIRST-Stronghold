@@ -27,7 +27,7 @@ public class GamePad extends Joystick {
 	private final static int dPad        = 0;  // dPad: Returns Angle in degrees {0,45,90,...,315}
 
 	// Instance variables
-	private double min = 0.10;
+	private double min = 0.05;
 	private double max = 1.00;
 
 	// Constructors 
@@ -77,44 +77,44 @@ public class GamePad extends Joystick {
 	//Gets the squared  (^2)  value of every axis on the controller
 	public double quadraticLX(){
 		double LX1x2 = getRawAxis(lStickX);
-		double LXf = (LX1x2*Math.abs(LX1x2));
-		if(Math.abs(LXf) <= 0.05){
-			LXf = 0;
-		}
+		double LXj = rangeTester(LX1x2);
+		double LXf = (LXj*Math.abs(LXj));
 		return LXf;
 	}
 	
 	public double quadraticLY(){
 		double LY1x2 = getRawAxis(lStickY);
-		double LYf = (LY1x2*Math.abs(LY1x2));
-		if(Math.abs(LYf) <= 0.05){
-			LYf = 0;
-		}
+		double LYj = rangeTester(LY1x2);
+		double LYf = (LYj*Math.abs(LYj));
 		return LYf;
 	}
 	
 	public double quadraticRX(){
 		double RX1x2 = getRawAxis(rStickX);
-		double RXf = (RX1x2*Math.abs(RX1x2));
-		if(Math.abs(RXf) <= 0.05){
-			RXf = 0;
-		}
+		double RXj = rangeTester(RX1x2);
+		double RXf = (RXj*Math.abs(RXj));
 		return RXf;
 	}
 	
 	public double quadraticRY(){
-		double RY = getRawAxis(rStickY);
-		return (RY*Math.abs(RY));
+		double RY1x2 = getRawAxis(rStickY);
+		double RYj = rangeTester(RY1x2);
+		double RYf = (RYj*Math.abs(RYj));
+		return RYf;
 	}
 	
 	public double quadraticLT(){
-		double LT = getRawAxis(lTrigger);
-		return (LT*Math.abs(LT));
+		double LT1x2 = getRawAxis(lTrigger);
+		double LTj = rangeTester(LT1x2);
+		double LTf = (LTj*Math.abs(LTj));
+		return LTf;
 	}
 	
 	public double quadraticRT(){
-		double LT = getRawAxis(lTrigger);
-		return (LT*Math.abs(LT));
+		double RT1x2 = getRawAxis(rTrigger);
+		double RTj = rangeTester(RT1x2);
+		double RTf = (RTj*Math.abs(RTj));
+		return RTf;
 	}
 	
 	// Validate the Axis values
