@@ -14,17 +14,20 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Robot extends IterativeRobot {
 	
-	GamePad turncontrol;
+	GamePad turnControl;
+	GamePad controller2;
 	DriveTrain scrubTrain;
-    /**
+    BallShooter shooter2;
+	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
 
     public void robotInit() {
-    	
-    	turncontrol = new GamePad(1);
+    	controller2 = new GamePad(2);
+    	turnControl = new GamePad(1);
     	scrubTrain = new DriveTrain();
+    	shooter2 = new BallShooter(controller2);
     }
     
 	/**
@@ -50,13 +53,14 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	double feedsd = turncontrol.quadraticLY();
-    	double feeddir = (turncontrol.rightStickX()/2);
+    	double feedsd = turnControl.quadraticLY();
+    	double feeddir = (turnControl.rightStickX()/2);
     		if(Math.abs(feeddir) <= 0.05){
     			feeddir = 0;
     		}
         scrubTrain.turnWheel(feeddir);
         scrubTrain.driveWheels(feedsd);
+        shooter2.shootingMethod();
     }
     
     /**
