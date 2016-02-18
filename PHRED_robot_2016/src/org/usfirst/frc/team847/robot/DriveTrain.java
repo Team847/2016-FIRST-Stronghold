@@ -38,12 +38,12 @@ public DriveTrain() {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	ninetyClicks = 1400;
+	ninetyClicks = 1350;
 	turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
 	turnMotor.setPosition(0);
 	turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 	turnMotor.reverseSensor(true);
-	turnMotor.setPID(0.9, 0.004, 0.0);
+	turnMotor.setPID(2.0, 0.01, 0.0);
 }	
 
 public void testMotor(){

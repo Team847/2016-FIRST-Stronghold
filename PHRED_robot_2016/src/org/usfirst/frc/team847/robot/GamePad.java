@@ -27,7 +27,7 @@ public class GamePad extends Joystick {
 	private final static int dPad        = 0;  // dPad: Returns Angle in degrees {0,45,90,...,315}
 
 	// Instance variables
-	private double min = 0.05;
+	private double min = 0.01;
 	private double max = 1.00;
 
 	// Constructors 
@@ -50,12 +50,12 @@ public class GamePad extends Joystick {
 	
 	public double leftStickX() {
 		double LX = getRawAxis(lStickX);
-		return LX;
+		return rangeTester(LX);
 	}
 
 	public double leftStickY() {
 		double LY = getRawAxis(lStickY);
-		return LY;
+		return rangeTester(LY);
 	}
 
 	public double rightTrigger() {

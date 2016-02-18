@@ -54,15 +54,13 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	double feedsd = turnControl.quadraticLY();
-    	double feeddir = (turnControl.rightStickX()/2);
-    		if(Math.abs(feeddir) <= 0.05){
-    			feeddir = 0;
-    		}
+    	double feeddir = turnControl.rightStickX();     		
         scrubTrain.turnWheel(feeddir);
         scrubTrain.driveWheels(feedsd);
         shooter2.shootingMethod();
-    }
+}
     
+
     /**
      * This function is called periodically during test mode
      */

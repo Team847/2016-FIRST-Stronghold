@@ -31,9 +31,9 @@ public class BallShooter{
     
     public BallShooter(GamePad objectManipulation) {
 		shooter = objectManipulation;
-    	tiltMotor = new Victor(3);
-		bottomShooterMotor = new Victor(2);
-		topShooterMotor = new Victor(1);
+    	tiltMotor = new Victor(5);
+		bottomShooterMotor = new Victor(6);
+		topShooterMotor = new Victor(7);
 		rollerMotor = new Relay(1);
 		lazer = new DigitalInput(12);
     

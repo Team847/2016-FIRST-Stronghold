@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.*;
 public class ObstacleArm {
 
 	CANTalon Elbow = new CANTalon(1);
-	CANTalon Shoulder = new CANTalon(1);
+	CANTalon Shoulder = new CANTalon(2);
 	double pShoulder;
 	double pElbow;
 	boolean shoulderFWD;
