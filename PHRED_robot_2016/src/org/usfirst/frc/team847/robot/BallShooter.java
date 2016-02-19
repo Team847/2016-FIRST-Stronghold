@@ -72,7 +72,7 @@ public class BallShooter{
                 break;
 
 			case 3: //intake: 
-                if(!lazer.get()) {
+                if(lazer.get()) {
                     rollerMotor.set(Relay.Value.kForward);
                     break;
                 }    
