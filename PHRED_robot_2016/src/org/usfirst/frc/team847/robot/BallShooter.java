@@ -16,16 +16,13 @@ import edu.wpi.first.wpilibj.*;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class BallShooter{
+public class BallShooter implements RobotMap { 
     Relay rollerMotor;
     Victor tiltMotor;
     Victor bottomShooterMotor;
     Victor topShooterMotor;
     DigitalInput lazer;
     int flag = 0;
-    int shoot = 1;
-    int intake = 3;
-    int expell = 2 ;
     int i = 0;
      GamePad shooter;
     
@@ -44,19 +41,19 @@ public class BallShooter{
         System.out.println("lazer = " + lazer.get());
 
         if(shooter.lBumper()) {
-            flag = intake;
+            flag = INTAKE;
         }else if(shooter.rBumper()) {
-            flag = expell;
+            flag = EXPELL;
         }else if(shooter.bButton()) {
-            flag = shoot;
+            flag = SHOOT;
         }else{
             flag = 0;
         }
         
         switch(flag) {
             case 1:    //shoot:
-                topShooterMotor.set(-1.0);
-                bottomShooterMotor.set(1.0);
+                topShooterMotor.set(TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE);
+                bottomShooterMotor.set(BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE);
                 
                 if(i <= 25) {
                     i++;
