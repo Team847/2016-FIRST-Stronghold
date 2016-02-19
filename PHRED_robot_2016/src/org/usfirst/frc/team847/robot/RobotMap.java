@@ -1,4 +1,8 @@
 package org.usfirst.frc.team847.robot;
+
+
+import edu.wpi.first.wpilibj.*;
+
 public interface RobotMap {
 
 //==========================DRIVE TRAIN======================//	
@@ -19,13 +23,11 @@ public interface RobotMap {
 	
 	//============================Ball shooter===========//
 	 
-	 public final static int FLAG = 0;
 	 public final static int SHOOT = 1;
 	 public final static int INTAKE = 3;
 	 public final static int EXPELL = 2 ;
-	 public final static int I = 0;
-	    
-
+     public final static double TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE = -1.0;	  // shooting routine for top motor
+     public final static double BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE = 1.0; //shooting routine for bottom motor
 	    
 	    
 	//=================================ARM=================================//
