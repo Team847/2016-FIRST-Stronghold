@@ -1,4 +1,8 @@
 package org.usfirst.frc.team847.robot;
+
+
+import edu.wpi.first.wpilibj.*;
+
 public interface RobotMap {
 
 //==========================DRIVE TRAIN======================//	
