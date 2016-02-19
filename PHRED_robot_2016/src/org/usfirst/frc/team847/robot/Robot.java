@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.*;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot implements RobotMap{
 	
 	GamePad turnControl;
 	GamePad controller2;
@@ -24,8 +24,8 @@ public class Robot extends IterativeRobot {
      */
 
     public void robotInit() {
-    	controller2 = new GamePad(2);
-    	turnControl = new GamePad(1);
+    	controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
+    	turnControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
     	scrubTrain = new DriveTrain();
     	shooter2 = new BallShooter(controller2);
     }
