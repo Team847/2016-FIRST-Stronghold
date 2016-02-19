@@ -38,4 +38,11 @@ public interface RobotMap {
 	public final static boolean SHOULDER_REV = false;
 	public final static boolean BUTTON_MASH = false;
 	public final static double P_READER = 0; 
+	
+	//=======================Robot.java================================//
+	
+	public final static int OBJ_MANIP_GAMEPAD = 2;
+	public final static int DRIVE_GAMEPAD = 1;
 }
+
+
