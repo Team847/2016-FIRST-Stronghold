@@ -18,6 +18,7 @@ public class Robot extends IterativeRobot {
 	GamePad controller2;
 	DriveTrain scrubTrain;
     BallShooter shooter2;
+    ObstacleArmElbow arm;
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
     	turnControl = new GamePad(1);
     	scrubTrain = new DriveTrain();
     	shooter2 = new BallShooter(controller2);
+    	arm = new ObstacleArmElbow(controller2);
     }
     
 	/**
@@ -58,6 +60,9 @@ public class Robot extends IterativeRobot {
         scrubTrain.turnWheel(feeddir);
         scrubTrain.driveWheels(feedsd);
         shooter2.shootingMethod();
+        arm.shoulderJoint();
+        arm.elbowJoint();
+        
 }
     
 
