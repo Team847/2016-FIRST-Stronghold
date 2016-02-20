@@ -38,12 +38,12 @@ public DriveTrain() {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	ninetyClicks = 1350;
+	ninetyClicks = 1400;
 	turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
 	turnMotor.setPosition(0);
 	turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 	turnMotor.reverseSensor(true);
-	turnMotor.setPID(2.0, 0.01, 0.0);
+	turnMotor.setPID(0.9, 0.004, 0.0);
 }	
 
 public void testMotor(){
@@ -60,13 +60,17 @@ public void turnWheel(double direction){
 	System.out.println("turn: " + turn);
 	int position = turnMotor.getEncPosition();
 
-	if (position>-ninetyClicks && position<ninetyClicks)
+	if (position<-ninetyClicks && direction == -1)
+		turnMotor.setPosition(-ninetyClicks);
+	else if(position>ninetyClicks && direction == 1)
+		turnMotor.setPosition(ninetyClicks);
+	
+	else
 	turnMotor.set(turn);
 	
 
     return; 
 }
-
 public void driveWheels(double speed){
 
 radianDirection = turnMotor.getEncPosition()*Math.PI/(ninetyClicks*2);
