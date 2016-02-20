@@ -16,10 +16,9 @@ public class ObstacleArmElbow implements RobotMap{
 	boolean elbowREV;
 	boolean shoulderMash;
 	boolean elbowMash;
-	/*Note to Stephen: When you pull all the pieces together for the robot map
-	 *You'll have to create two xbox controller classes, one being the drive 
-	 *controller and the other being the object manip controller. This class here
-	 *needs to get all it's values from the object manip controller. */
+	double shoulderSpeed = SHOULDER_SPEED;
+	double elbowSpeed = ELBOW_SPEED;
+
 	public ObstacleArmElbow(GamePad xbox){
 		
 		gamePad = xbox;
@@ -32,8 +31,8 @@ public class ObstacleArmElbow implements RobotMap{
 		elbowREV = Elbow.isRevLimitSwitchClosed();
 //		ShoulderE.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
 //		Elbow.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
-		pShoulderE = ShoulderE.getAnalogInPosition();
-		pElbow = Elbow.getAnalogInPosition();
+		pShoulderE = ShoulderE.getAnalogInRaw();
+		pElbow = Elbow.getAnalogInRaw();
 	}
 	public void shoulderJoint(){
 		
@@ -43,10 +42,10 @@ public class ObstacleArmElbow implements RobotMap{
 		 * buttons are pressed, cuz who knows what would happen if both were pressed
 		 * at the same time...?? I have no clue. don't be a buttonmasher!*/
 		
-		boolean reachSUP = gamePad.yButton();
-		boolean reachSDOWN = gamePad.xButton();
+//		double reachSDOWN = gamePad.yButton();
+		double reachSUP = -gamePad.rightStickY();
 		
-		if(reachSUP == true && reachSDOWN == true){
+/*		if(reachSUP == true && reachSDOWN == true){
 			ShoulderE.set(0);
 			return;
 		}
@@ -62,18 +61,22 @@ public class ObstacleArmElbow implements RobotMap{
 		}
 		
 		if(reachSUP == true){
-			ShoulderE.set(.5);
+			ShoulderE.set(shoulderSpeed);
 		}
 		else if(reachSDOWN == true){
-					ShoulderE.set(-.5);
+					ShoulderE.set(-shoulderSpeed);
 			}
-		else ShoulderE.set(0);
+		else ShoulderE.set(0); */
+		
+		ShoulderE.set(reachSUP);
 	}
+		
+
 
 	public void elbowJoint(){
 		
-		boolean reachEUP = gamePad.lStickPressed();
-		boolean reachEDOWN = gamePad.rStickPressed();
+		double reachEUP = gamePad.leftStickY();
+	/*	boolean reachEDOWN = gamePad.rStickPressed();
 		
 		if(reachEUP == true && reachEDOWN == true){
 			Elbow.set(0);
@@ -91,24 +94,89 @@ public class ObstacleArmElbow implements RobotMap{
 		}
 		
 		if(reachEUP == true){
-			Elbow.set(.5);
+			Elbow.set(elbowSpeed);
 		}
 		else if(reachEDOWN == true){
-					Elbow.set(-.5);
+					Elbow.set(-elbowSpeed);
 			}
-		else Elbow.set(0);
+		else Elbow.set(0);*/
+		
+		Elbow.set(reachEUP);
+		
 		return;
 	}	 
 
 	
-	public void presets(boolean upPosButton, boolean drivePosButton, double SupPosition, double SdrivePosition, double EupPosition, double EdrivePosition){
+	public void presets(){
 		
+		int armFlag = 0;
+		boolean liftRoutine = gamePad.xButton();
+		boolean upPreset = gamePad.lStickPressed();
+		boolean downPreset = gamePad.rStickPressed();
+		
+		if(liftRoutine){
+			armFlag = PORTCULLIS_LIFT;
+		}
+		else if(upPreset){
+			armFlag = SET_UP;
+		}
+		else if(downPreset){
+			armFlag = SET_DOWN;
+		}
+		else armFlag = 0;
+		
+		switch(armFlag){
+		
+		case 1: //Portcullis lift
+			
+			break;
+		case 2: //Set up position
+			if(pShoulderE < SHOULDER_UP_PRESET){
+				ShoulderE.set(shoulderSpeed);
+			}
+			if(pShoulderE > SHOULDER_UP_PRESET){
+				ShoulderE.set(-shoulderSpeed);
+			}
+			else ShoulderE.set(0);
+			
+			if(pElbow < ELBOW_UP_PRESET){
+				Elbow.set(elbowSpeed);
+			}
+			if(pElbow > ELBOW_UP_PRESET){
+				Elbow.set(-elbowSpeed);
+			}
+			else Elbow.set(0);
+			
+			break;
+		case 3: //Set down position
+			
+			if(pShoulderE < SHOULDER_DOWN_PRESET){
+				ShoulderE.set(shoulderSpeed);
+			}
+			if(pShoulderE > SHOULDER_DOWN_PRESET){
+				ShoulderE.set(-shoulderSpeed);
+			}
+			else ShoulderE.set(0);
+			
+			if(pElbow < ELBOW_DOWN_PRESET){
+				Elbow.set(elbowSpeed);
+			}
+			if(pElbow > ELBOW_DOWN_PRESET){
+				Elbow.set(-elbowSpeed);
+			}
+			else Elbow.set(0);
+
+			
+			break;
+		}
+		
+		/*
 		if(upPosButton == true && pShoulderE < SupPosition){
-			ShoulderE.set(.5);
+			ShoulderE.set(elbowSpeed);
 		}
 		else{
 			if(drivePosButton == true && pShoulderE > SdrivePosition){
-				ShoulderE.set(-.5);
+				ShoulderE.set(-elbowSpeed);
 			}
 			else{
 				ShoulderE.set(0);
@@ -116,21 +184,19 @@ public class ObstacleArmElbow implements RobotMap{
 		}
 		
 		if(upPosButton == true && pElbow < EupPosition){
-			Elbow.set(.5);
+			Elbow.set(elbowSpeed);
 		}
 		else{
 			if(drivePosButton == true && pElbow > EdrivePosition){
-				Elbow.set(-.5);
+				Elbow.set(-elbowSpeed);
 			}
 			else{
 				Elbow.set(0);
 				return;
 			}
-		}
+		}*/
 	}
 }
-
-
 
 
 
