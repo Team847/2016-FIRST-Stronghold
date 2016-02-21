@@ -8,71 +8,75 @@ public class ObstacleArmElbow implements RobotMap{
 	
 	CANTalon Elbow = new CANTalon(CANTALON_ELBOW);
 	CANTalon ShoulderE = new CANTalon(CANTALON_SHOULDER);
+	
 	double pShoulderE;
 	double pElbow;
+	
 	boolean shoulderEFWD;
 	boolean shoulderEREV;
 	boolean elbowFWD;
 	boolean elbowREV;
 	boolean shoulderMash;
 	boolean elbowMash;
-	double shoulderSpeed = SHOULDER_SPEED;
-	double elbowSpeed = ELBOW_SPEED;
-
+	
 	public ObstacleArmElbow(GamePad xbox){
 		
 		gamePad = xbox;
 		
 		ShoulderE.set(0);
 		Elbow.set(0);
+		
 		shoulderEFWD = ShoulderE.isFwdLimitSwitchClosed();
 		shoulderEREV = ShoulderE.isRevLimitSwitchClosed();
+		
 		elbowFWD = Elbow.isFwdLimitSwitchClosed();
 		elbowREV = Elbow.isRevLimitSwitchClosed();
-//		ShoulderE.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
-//		Elbow.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogPot);
+		
 		pShoulderE = ShoulderE.getAnalogInRaw();
 		pElbow = Elbow.getAnalogInRaw();
 	}
+	
+	public void armTest(){
+
+		ShoulderE.set(0);
+		Elbow.set(0);
+		
+		double sPot = pShoulderE;
+		double ePot = pElbow;
+
+		System.out.println(sPot);
+		System.out.println(ePot);
+	}
+	
 	public void shoulderJoint(){
 				
 		double reach_S = -gamePad.rightStickY();
 		
-		if(pShoulderE >= MAX_S /*|| shoulderEFWD == true*/ && reach_S > 0){
+		if(pShoulderE >= MAX_S && reach_S > 0){
 			ShoulderE.set(0);
-			return;
 		}
-		else if(pShoulderE > MAX_S && reach_S < 0){
-			ShoulderE.set(reach_S);
+		else if(pShoulderE <= MIN_S && reach_S < 0){
+			ShoulderE.set(0);
 		}
+		else ShoulderE.set(reach_S);
 		
-		if(pShoulderE <= MIN_S /*|| shoulderEREV == true*/ && reach_S < 0){
-			ShoulderE.set(0);
-			return;
-		}
-		ShoulderE.set(reach_S);
-		//System.out.println(pShoulderE);
 		return;
-		
 		}
 		
 	public void elbowJoint(){
 		
 		double reach_E = gamePad.leftStickY();
 		
-		if(pElbow >= MAX_S /*|| elbowFWD == true*/ && reach_E > 0){
+		if(pElbow >= MAX_S && reach_E > 0){
 			Elbow.set(0);
-			return;
 		}
-		if(pElbow <= MIN_S /*|| elbowREV == true*/ && reach_E < 0){
-			Elbow.set(0);
-			return;
+		else if(pElbow <= MIN_S && reach_E < 0){
+				Elbow.set(0);
 		}
-		Elbow.set(reach_E);
-		//System.out.println( pElbow);
+		else Elbow.set(reach_E);
+		
 		return;
 		}	 
-
 	
 	public void presets(){
 		
@@ -97,16 +101,16 @@ public class ObstacleArmElbow implements RobotMap{
 		case 1: //Portcullis lift
 			
 			if(pShoulderE < SHOULDER_STEP_ONE){
-				ShoulderE.set(shoulderSpeed);
+				ShoulderE.set(SHOULDER_SPEED);
 			}
 			if(pElbow < ELBOW_STEP_ONE){
-				Elbow.set(elbowSpeed);
+				Elbow.set(SHOULDER_SPEED);
 			}
 			if(pShoulderE > SHOULDER_STEP_TWO){
-				ShoulderE.set(-shoulderSpeed);
+				ShoulderE.set(-SHOULDER_SPEED);
 			}
 			if(pElbow > ELBOW_STEP_TWO){
-				Elbow.set(-elbowSpeed);
+				Elbow.set(-SHOULDER_SPEED);
 			}
 			
 			else{
@@ -117,18 +121,18 @@ public class ObstacleArmElbow implements RobotMap{
 			break;
 		case 2: //Set up position
 			if(pShoulderE < SHOULDER_UP_PRESET){
-				ShoulderE.set(shoulderSpeed);
+				ShoulderE.set(SHOULDER_SPEED);
 			}
 			if(pShoulderE > SHOULDER_UP_PRESET){
-				ShoulderE.set(-shoulderSpeed);
+				ShoulderE.set(-SHOULDER_SPEED);
 			}
 			else ShoulderE.set(0);
 			
 			if(pElbow < ELBOW_UP_PRESET){
-				Elbow.set(elbowSpeed);
+				Elbow.set(ELBOW_SPEED);
 			}
 			if(pElbow > ELBOW_UP_PRESET){
-				Elbow.set(-elbowSpeed);
+				Elbow.set(-ELBOW_SPEED);
 			}
 			else Elbow.set(0);
 			
@@ -137,18 +141,18 @@ public class ObstacleArmElbow implements RobotMap{
 		case 3: //Set down position
 			
 			if(pShoulderE < SHOULDER_DOWN_PRESET){
-				ShoulderE.set(shoulderSpeed);
+				ShoulderE.set(SHOULDER_SPEED);
 			}
 			if(pShoulderE > SHOULDER_DOWN_PRESET){
-				ShoulderE.set(-shoulderSpeed);
+				ShoulderE.set(-SHOULDER_SPEED);
 			}
 			else ShoulderE.set(0);
 			
 			if(pElbow < ELBOW_DOWN_PRESET){
-				Elbow.set(elbowSpeed);
+				Elbow.set(ELBOW_SPEED);
 			}
 			if(pElbow > ELBOW_DOWN_PRESET){
-				Elbow.set(-elbowSpeed);
+				Elbow.set(-ELBOW_SPEED);
 			}
 			else Elbow.set(0);
 			
@@ -182,10 +186,10 @@ public class ObstacleArmElbow implements RobotMap{
  *      \   \   \   \                                               \              
  *       \   \   \   \                                               \            
  *        \   \   \   \                                               \           
- *         \   \   \   \_______________________________________________\                                                            
- *          \   \   \  |                                                |         
- *           \   \   \ |                                                |            
- *            \   \   \|________________________________________________|                                                                
+ *         \   \   \ \_______________________________________________\                                                            
+ *          \   \   \|                                                |         
+ *           \   \   |                                                |            
+ *            \   \  |________________________________________________|                                                                
  *             \   \                                                                                                             
  *              \   \___________________________________________________
  *               \  |                                                   |
