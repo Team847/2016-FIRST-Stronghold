@@ -56,12 +56,12 @@ public class Robot extends IterativeRobot implements RobotMap{
      */
     public void teleopPeriodic() {
     	double feedsd = turnControl.quadraticLY();
-    	double feeddir = turnControl.rightStickX();     		
-        scrubTrain.turnWheel(feeddir);
-        scrubTrain.driveWheels(feedsd);
-        shooter2.shootingMethod();
-        arm.shoulderJoint();
-        arm.elbowJoint();
+		double feeddir = turnControl.rightStickX();     		
+		scrubTrain.turnWheel(feeddir);
+		scrubTrain.driveWheels(feedsd);
+		shooter2.shootingMethod();
+		//arm.shoulderJoint();
+		//arm.elbowJoint();
         
 }
     

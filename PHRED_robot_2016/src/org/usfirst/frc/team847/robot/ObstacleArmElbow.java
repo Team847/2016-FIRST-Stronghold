@@ -35,76 +35,43 @@ public class ObstacleArmElbow implements RobotMap{
 		pElbow = Elbow.getAnalogInRaw();
 	}
 	public void shoulderJoint(){
+				
+		double reach_S = -gamePad.rightStickY();
 		
-		/*  The Robot Framework program should send this method a handful of 
-		 *  button values in the form of booleans to decide which way to move
-		 * The code below will stop the motors from doing anything if BOTH 
-		 * buttons are pressed, cuz who knows what would happen if both were pressed
-		 * at the same time...?? I have no clue. don't be a buttonmasher!*/
-		
-//		double reachSDOWN = gamePad.yButton();
-		double reachSUP = -gamePad.rightStickY();
-		
-/*		if(reachSUP == true && reachSDOWN == true){
+		if(pShoulderE >= MAX_S /*|| shoulderEFWD == true*/ && reach_S > 0){
 			ShoulderE.set(0);
 			return;
 		}
+		else if(pShoulderE > MAX_S && reach_S < 0){
+			ShoulderE.set(reach_S);
+		}
 		
-		if(pShoulderE == MAX_S || shoulderEFWD == true){
+		if(pShoulderE <= MIN_S /*|| shoulderEREV == true*/ && reach_S < 0){
 			ShoulderE.set(0);
 			return;
 		}
+		ShoulderE.set(reach_S);
+		//System.out.println(pShoulderE);
+		return;
 		
-		if(pShoulderE == MIN_S || shoulderEREV == true){
-			ShoulderE.set(0);
-			return;
 		}
 		
-		if(reachSUP == true){
-			ShoulderE.set(shoulderSpeed);
-		}
-		else if(reachSDOWN == true){
-					ShoulderE.set(-shoulderSpeed);
-			}
-		else ShoulderE.set(0); */
-		
-		ShoulderE.set(reachSUP);
-	}
-		
-
-
 	public void elbowJoint(){
 		
-		double reachEUP = gamePad.leftStickY();
-	/*	boolean reachEDOWN = gamePad.rStickPressed();
+		double reach_E = gamePad.leftStickY();
 		
-		if(reachEUP == true && reachEDOWN == true){
+		if(pElbow >= MAX_S /*|| elbowFWD == true*/ && reach_E > 0){
 			Elbow.set(0);
 			return;
 		}
-		
-		if(pElbow == MAX_S || elbowFWD == true){
+		if(pElbow <= MIN_S /*|| elbowREV == true*/ && reach_E < 0){
 			Elbow.set(0);
 			return;
 		}
-		
-		if(pElbow == MIN_S || elbowREV == true){
-			Elbow.set(0);
-			return;
-		}
-		
-		if(reachEUP == true){
-			Elbow.set(elbowSpeed);
-		}
-		else if(reachEDOWN == true){
-					Elbow.set(-elbowSpeed);
-			}
-		else Elbow.set(0);*/
-		
-		Elbow.set(reachEUP);
-		
+		Elbow.set(reach_E);
+		//System.out.println( pElbow);
 		return;
-	}	 
+		}	 
 
 	
 	public void presets(){
@@ -129,6 +96,24 @@ public class ObstacleArmElbow implements RobotMap{
 		
 		case 1: //Portcullis lift
 			
+			if(pShoulderE < SHOULDER_STEP_ONE){
+				ShoulderE.set(shoulderSpeed);
+			}
+			if(pElbow < ELBOW_STEP_ONE){
+				Elbow.set(elbowSpeed);
+			}
+			if(pShoulderE > SHOULDER_STEP_TWO){
+				ShoulderE.set(-shoulderSpeed);
+			}
+			if(pElbow > ELBOW_STEP_TWO){
+				Elbow.set(-elbowSpeed);
+			}
+			
+			else{
+				ShoulderE.set(0);
+				Elbow.set(0);
+			}
+			
 			break;
 		case 2: //Set up position
 			if(pShoulderE < SHOULDER_UP_PRESET){
@@ -148,6 +133,7 @@ public class ObstacleArmElbow implements RobotMap{
 			else Elbow.set(0);
 			
 			break;
+			
 		case 3: //Set down position
 			
 			if(pShoulderE < SHOULDER_DOWN_PRESET){
@@ -165,36 +151,9 @@ public class ObstacleArmElbow implements RobotMap{
 				Elbow.set(-elbowSpeed);
 			}
 			else Elbow.set(0);
-
 			
 			break;
 		}
-		
-		/*
-		if(upPosButton == true && pShoulderE < SupPosition){
-			ShoulderE.set(elbowSpeed);
-		}
-		else{
-			if(drivePosButton == true && pShoulderE > SdrivePosition){
-				ShoulderE.set(-elbowSpeed);
-			}
-			else{
-				ShoulderE.set(0);
-			}
-		}
-		
-		if(upPosButton == true && pElbow < EupPosition){
-			Elbow.set(elbowSpeed);
-		}
-		else{
-			if(drivePosButton == true && pElbow > EdrivePosition){
-				Elbow.set(-elbowSpeed);
-			}
-			else{
-				Elbow.set(0);
-				return;
-			}
-		}*/
 	}
 }
 
@@ -202,30 +161,35 @@ public class ObstacleArmElbow implements RobotMap{
 
 
 
-/*  
- *  
- *  __-  
- * |\  _~`|                                                   
- * | \  -~`|                                                              
- * |  \  _~`|                                                            
- * |   \  -~`|                                                              
- *  \   \  -~`|                                                               
- *   \   \  _~`|                                                             
- *    \   \  _~`|                                                              
- *     \   \  -~`|                                                           
- *      \   \  -~`|`                                                               
- *       \   \  -~`|                                                              
- *        \   \  _~`|                                                               
- *         \   \  -~`|                                                                 
- *          \   \  _~`|                                                            
- *           \   \  _~`|                                                              
- *            \   \  -~`|                                                                
- *             \   \  _~``|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  ||                                                         
- *              \   \  -~ ~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`~`\                                                     
- *               \   \  _ -- _ - - _ _ - _ __ -- _ - - _ _ - _ __ -- _ - - \
- *                \   \_____________________________________________________\
- *                 \  |                                                     |
- *                  \ |                                                     |
- *                   \|_____________________________________________________|
+/* 
+ * _________________________________________________
+ * |\                                               \             
+ * | \                                               \             
+ * |  \                                               \             
+ * \   \                                               \             
+ *  \   \                                               \             
+ *   \   \                                               \             
+ *    \   \                                               \             
+ *  __ \   \                                               \             
+ * |\   \   \                                               \    
+ * | \   \   \                                               \               
+ * |  \   \   \                                               \             
+ * |   \   \   \                                               \               
+ *  \   \   \   \                                               \                
+ *   \   \   \   \                                               \              
+ *    \   \   \   \                                               \               
+ *     \   \   \   \                                               \        
+ *      \   \   \   \                                               \              
+ *       \   \   \   \                                               \            
+ *        \   \   \   \                                               \           
+ *         \   \   \   \_______________________________________________\                                                            
+ *          \   \   \  |                                                |         
+ *           \   \   \ |                                                |            
+ *            \   \   \|________________________________________________|                                                                
+ *             \   \                                                                                                             
+ *              \   \___________________________________________________
+ *               \  |                                                   |
+ *                \ |                                                   |
+ *                 \|___________________________________________________|
  */
 
