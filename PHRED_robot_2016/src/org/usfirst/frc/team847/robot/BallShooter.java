@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.*;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
+ * 
  */
 public class BallShooter implements RobotMap { 
     Relay rollerMotor;
@@ -49,7 +50,9 @@ public class BallShooter implements RobotMap {
         }else{
             flag = 0;
         }
-        
+   /*Hello
+    * 
+   */   
         switch(flag) {
             case 1:    //shoot:
                 topShooterMotor.set(TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE);
