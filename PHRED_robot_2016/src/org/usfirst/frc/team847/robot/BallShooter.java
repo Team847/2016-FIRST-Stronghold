@@ -29,17 +29,17 @@ public class BallShooter implements RobotMap {
     
     public BallShooter(GamePad objectManipulation) {
 		shooter = objectManipulation;
-    	tiltMotor = new Victor(5);
-		bottomShooterMotor = new Victor(6);
-		topShooterMotor = new Victor(7);
-		rollerMotor = new Relay(1);
-		lazer = new DigitalInput(12);
+    	tiltMotor = new Victor(3);
+		bottomShooterMotor = new Victor(2);
+		topShooterMotor = new Victor(1);
+		rollerMotor = new Relay(3);
+		lazer = new DigitalInput(0);
     
     }
     
     public void shootingMethod() {
 
-        System.out.println("lazer = " + lazer.get());
+        //System.out.println("lazer = " + lazer.get());
 
         if(shooter.lBumper()) {
             flag = INTAKE;
@@ -62,7 +62,7 @@ public class BallShooter implements RobotMap {
                     i++;
                     rollerMotor.set(Relay.Value.kOff);
                 }else{
-                    rollerMotor.set(Relay.Value.kForward);                
+                    rollerMotor.set(Relay.Value.kForward);
                 }
                 break;
 
@@ -75,8 +75,9 @@ public class BallShooter implements RobotMap {
                 if(lazer.get()) {
                     rollerMotor.set(Relay.Value.kForward);
                     break;
-                }    
-
+                }
+           
+           
             default:
                 rollerMotor.set(Relay.Value.kOff);
                 bottomShooterMotor.set(0.0);

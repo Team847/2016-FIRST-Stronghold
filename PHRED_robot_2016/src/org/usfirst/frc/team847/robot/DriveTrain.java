@@ -29,9 +29,9 @@ boolean rightSwitch;
 
 public DriveTrain() {
 	
-	backMotor = new Victor(1);
-	leftMotor = new Victor(4);
-	rightMotor = new Victor(2);
+	backMotor = new Victor(4);
+	leftMotor = new Victor(6);
+	rightMotor = new Victor(5);
 	turnMotor = new CANTalon(3);
 	leftMotor.setInverted(true);
 	
