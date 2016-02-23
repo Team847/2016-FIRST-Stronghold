@@ -55,23 +55,21 @@ public class Robot extends IterativeRobot implements RobotMap{
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	double feedsd = turnControl.quadraticLY();
-		double feeddir = turnControl.rightStickX();     		
-		scrubTrain.turnWheel(feeddir);
-		scrubTrain.driveWheels(feedsd);
+//    	double feedsd = turnControl.quadraticLY();
+//		double feeddir = turnControl.rightStickX();     		
+//		scrubTrain.turnWheel(feeddir);
+//		scrubTrain.driveWheels(feedsd);
 		shooter2.shootingMethod();
-		//arm.shoulderJoint();
-		//arm.elbowJoint();
-        
-}
+		arm.shoulderJoint();
+		arm.elbowJoint();
+    }
     
-
+    
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
     	scrubTrain.testMotor();
-
+    	arm.armTest();
     }
-    
 }

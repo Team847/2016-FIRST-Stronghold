@@ -26,9 +26,9 @@ public interface RobotMap {
 	public final static double ELBOW_SPEED = .8;
 	public final static double SHOULDER_SPEED = .5;
 	public final static double MIN_S = 70;
-	public final static double MAX_S = 130;
-	public final static double MIN_E = 130;
-	public final static double MAX_E = 535;
+	public final static double MAX_S = 135;
+	public final static double MIN_E = 660;
+	public final static double MAX_E = 115;
 	public final static double P_READER = 0;
 	public final static double SHOULDER_STEP_ONE = 50;
 	public final static double SHOULDER_STEP_TWO = 75;

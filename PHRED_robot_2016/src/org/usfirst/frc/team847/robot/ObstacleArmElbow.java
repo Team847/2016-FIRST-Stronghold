@@ -31,9 +31,6 @@ public class ObstacleArmElbow implements RobotMap{
 		
 		elbowFWD = Elbow.isFwdLimitSwitchClosed();
 		elbowREV = Elbow.isRevLimitSwitchClosed();
-		
-		pShoulderE = ShoulderE.getAnalogInRaw();
-		pElbow = Elbow.getAnalogInRaw();
 	}
 	
 	public void armTest(){
@@ -41,21 +38,26 @@ public class ObstacleArmElbow implements RobotMap{
 		ShoulderE.set(0);
 		Elbow.set(0);
 		
-		double sPot = pShoulderE;
-		double ePot = pElbow;
-
+		double sPot = ShoulderE.getAnalogInPosition();
+		double ePot = Elbow.getAnalogInPosition();
+		
+		System.out.println("Shoulder");
 		System.out.println(sPot);
+		System.out.println("Elbow");
 		System.out.println(ePot);
+		
+		return;
 	}
 	
 	public void shoulderJoint(){
 				
 		double reach_S = -gamePad.rightStickY();
+		double sPot = ShoulderE.getAnalogInPosition(); 
 		
-		if(pShoulderE >= MAX_S && reach_S > 0){
+		if(sPot >= 135 && reach_S > 0){
 			ShoulderE.set(0);
 		}
-		else if(pShoulderE <= MIN_S && reach_S < 0){
+		else if(sPot <= 80 && reach_S < 0){
 			ShoulderE.set(0);
 		}
 		else ShoulderE.set(reach_S);
@@ -66,11 +68,13 @@ public class ObstacleArmElbow implements RobotMap{
 	public void elbowJoint(){
 		
 		double reach_E = gamePad.leftStickY();
+		double ePot = Elbow.getAnalogInPosition();
 		
-		if(pElbow >= MAX_S && reach_E > 0){
+		if(ePot <= MAX_E && reach_E < 0){
+			
 			Elbow.set(0);
 		}
-		else if(pElbow <= MIN_S && reach_E < 0){
+		else if(ePot >= MIN_E && reach_E > 0){
 				Elbow.set(0);
 		}
 		else Elbow.set(reach_E);
