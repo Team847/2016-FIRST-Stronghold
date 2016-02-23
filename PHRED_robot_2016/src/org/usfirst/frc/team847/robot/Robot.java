@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot implements RobotMap{
     public void robotInit() {
     	controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
     	turnControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
-    	scrubTrain = new DriveTrain();
+    	scrubTrain = new DriveTrain(turnControl);
     	shooter2 = new BallShooter(controller2);
     	arm = new ObstacleArmElbow(controller2);
     }

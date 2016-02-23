@@ -50,7 +50,7 @@ public class BallShooter implements RobotMap {
         }else{
             flag = 0;
         }
-   /*Hello
+   /**Hello
     * 
    */   
         switch(flag) {
