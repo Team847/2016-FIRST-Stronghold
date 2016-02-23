@@ -51,7 +51,7 @@ public class BallShooter implements RobotMap {
             flag = 0;
         }
    /**Hello
-    * 
+    *
    */   
         switch(flag) {
             case 1:    //shoot:
