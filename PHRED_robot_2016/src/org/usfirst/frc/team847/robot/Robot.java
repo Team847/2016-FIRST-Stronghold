@@ -20,6 +20,8 @@ public class Robot extends IterativeRobot implements RobotMap{
 	DriveTrain scrubTrain;
     BallShooter shooter2;
     ObstacleArmElbow arm;
+    double up;
+    double down;
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -65,11 +67,13 @@ public class Robot extends IterativeRobot implements RobotMap{
 //		double feeddir = turnControl.rightStickX();     		
 //		scrubTrain.turnWheel(feeddir);
 //		scrubTrain.driveWheels(feedsd);
-		shooter2.shootingMethod();
+		shooter2.runShooter();
 		arm.shoulderJoint();
 		arm.elbowJoint();
+		
         Timer.delay(0.005);
-    }
+        
+        }
     }
     
     /**
