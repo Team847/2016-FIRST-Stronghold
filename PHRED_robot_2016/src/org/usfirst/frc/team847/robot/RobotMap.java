@@ -38,6 +38,8 @@ public interface RobotMap {
 	public final static double SHOULDER_DOWN_PRESET = 0;
 	public final static double ELBOW_UP_PRESET = 100;
 	public final static double SHOULDER_UP_PRESET = 100;
+	public final static double ARM_BICEP = 26;				/**//**//**//**//**//**//**//**//**//**//**/
+	public final static double ARM_TRIICEP = 27.5;  		/**//**//**//**//**//**//**//**//**//**//**/
 	public final static int CANTALON_ELBOW = 1;
 	public final static int CANTALON_SHOULDER =2;
 	public final static int PORTCULLIS_LIFT = 1;
