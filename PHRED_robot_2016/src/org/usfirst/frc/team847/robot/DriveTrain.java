@@ -25,10 +25,13 @@ double shortRadius;
 double ninetyClicks;
 boolean leftSwitch;
 boolean rightSwitch;
+double rawMagnitude;
+double preMagnitude;
+GamePad gamePad1;
 
-
-public DriveTrain() {
+public DriveTrain(GamePad driverPad) {
 	
+	driverPad = gamePad1;
 	backMotor = new Victor(4);
 	leftMotor = new Victor(6);
 	rightMotor = new Victor(5);
@@ -47,10 +50,12 @@ public DriveTrain() {
 }	
 
 public void testMotor(){
-
+//This was for testing stuff but it now is dead X |D
+//ORCAS WILL NEVER DIE                          X |
+// NOT This part under it though
 return;
 }
-
+//"Software Turn" stuff for the Back wheel changing angle  
 public void turnWheel(double direction){
 	double turn2 = direction*ninetyClicks;
 	int turn = (int)turn2;
@@ -65,6 +70,7 @@ public void turnWheel(double direction){
 	else if(position>ninetyClicks && direction == 1)
 		turnMotor.setPosition(ninetyClicks);
 	
+	
 	else
 	turnMotor.set(turn);
 	
@@ -72,16 +78,24 @@ public void turnWheel(double direction){
     return; 
 }
 public void driveWheels(double speed){
-
-radianDirection = turnMotor.getEncPosition()*Math.PI/(ninetyClicks*2);
-//this checks to make it goes straight
+	
+//"Speed Ramping" This is The Part where It ramps the speed up to a faster speed the longer you hold the joystick
+	preMagnitude = rawMagnitude;
+	rawMagnitude = gamePad1.getMagnitude() ;
+	
+	rawMagnitude = preMagnitude + ((rawMagnitude - preMagnitude)/50);
+	
+	speed = rawMagnitude;
+	
+			radianDirection = turnMotor.getEncPosition()*Math.PI/(ninetyClicks*2);
+//"Speed" This sets the speed of the wheels also makes it go straight when going forwards 
 if (radianDirection > -0.01 && radianDirection <0.1){
 speedLeft = speed;
 speedRight = speed;
 speedBack = speed;
 }
 
-//Right Turn Code
+//"Right Turn Code" gets the wheel speed to change dependingon how fast and sharp of a turn you want while turning right
 if (radianDirection <= -0.01 && radianDirection >= Math.PI/-2 ) {
 middleRadius = frameLength/(Math.sin(Math.abs(radianDirection)));
 shortRadius = (middleRadius*Math.cos(Math.abs(radianDirection)))- (frameWidth/2);
@@ -97,7 +111,9 @@ speedRight = speed1;
 }
 }
 
-// Left turn Code
+//"Left turn Code" 
+//It dosent change much from the Right turn code just line 113 is difrent from line 97 
+//Also  lines 127-129 change from lined 105-107 
 if (radianDirection >= 0.01 && radianDirection <= Math.PI/2) {
 
 middleRadius = frameLength/(Math.sin(Math.abs(radianDirection)));

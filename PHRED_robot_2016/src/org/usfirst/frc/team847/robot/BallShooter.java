@@ -25,8 +25,10 @@ public class BallShooter implements RobotMap {
     DigitalInput lazer;
     int flag = 0;
     int i = 0;
-     GamePad shooter;
-    
+    GamePad shooter;
+    Victor Elevator;
+    DigitalInput elevatorUp;
+    DigitalInput elevatorDown;
     public BallShooter(GamePad objectManipulation) {
 		shooter = objectManipulation;
     	tiltMotor = new Victor(3);
@@ -34,7 +36,15 @@ public class BallShooter implements RobotMap {
 		topShooterMotor = new Victor(1);
 		rollerMotor = new Relay(3);
 		lazer = new DigitalInput(0);
-    
+		Elevator = new Victor(3);
+		elevatorUp = new DigitalInput(1);
+		elevatorDown = new DigitalInput(2);
+    }
+    public void runShooter(){
+    	elevator();
+    if (elevator()){shootingMethod();}
+    // runs the elevator you check the button you used for the shooter
+    return;
     }
     
     public void shootingMethod() {
@@ -50,8 +60,8 @@ public class BallShooter implements RobotMap {
         }else{
             flag = 0;
         }
-   /*Hello
-    * 
+   /**Hello
+    *
    */   
         switch(flag) {
             case 1:    //shoot:
@@ -86,4 +96,21 @@ public class BallShooter implements RobotMap {
                 break;
         }
     }
-}
+    public boolean elevator() {
+    if(shooter.leftTrigger() >= 0.5 && !elevatorUp.get()) {
+    Elevator.set(0.75);
+    }
+    else if(shooter.rightTrigger() >= 0.5 && !elevatorDown.get()) {
+    Elevator.set(-0.75);
+    }
+    else {
+    Elevator.set(0);
+    }
+    boolean shootPosition = elevatorDown.get();
+    return shootPosition;
+    }
+    
+    }
+    
+    	
+
