@@ -11,6 +11,8 @@ public class ObstacleArmElbow implements RobotMap{
 	
 	double pShoulderE;
 	double pElbow;
+	double elbowCheckOnce = Elbow.getAnalogInPosition();
+	double shoulderCheckOnce = ShoulderE.getAnalogInPosition();
 	
 	boolean shoulderEFWD;
 	boolean shoulderEREV;
@@ -80,8 +82,23 @@ public class ObstacleArmElbow implements RobotMap{
 		else Elbow.set(reach_E);
 		
 		return;
-		}	 
+		}
 	
+	public void MaxReachCheck(){
+		
+		double alpha = Elbow.getAnalogInPosition();
+		double beta = ShoulderE.getAnalogInPosition();
+		
+		double angleOne = 90 - beta;
+		double angleTwo = alpha - angleOne;
+		double lengthOne;
+		double lengthTwo;
+		
+		boolean is15broke;
+		
+		
+	}
+
 	public void presets(){
 		
 		int armFlag = 0;
