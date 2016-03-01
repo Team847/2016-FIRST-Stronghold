@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class Robot extends IterativeRobot implements RobotMap{
-	
+
 	CameraServer Camera;
 	GamePad turnControl;
 	GamePad controller2;
