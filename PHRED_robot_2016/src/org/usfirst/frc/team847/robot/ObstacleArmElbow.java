@@ -56,10 +56,10 @@ public class ObstacleArmElbow implements RobotMap{
 		double reach_S = -gamePad.rightStickY();
 		double sPot = ShoulderE.getAnalogInPosition(); 
 		
-		if(sPot >= 135 && reach_S > 0){
+		if(sPot >= MAX_S && reach_S > 0){
 			ShoulderE.set(0);
 		}
-		else if(sPot <= 80 && reach_S < 0){
+		else if(sPot <= MIN_S && reach_S < 0){
 			ShoulderE.set(0);
 		}
 		else ShoulderE.set(reach_S);
@@ -84,19 +84,47 @@ public class ObstacleArmElbow implements RobotMap{
 		return;
 		}
 	
-	public void MaxReachCheck(){
+	public void stallOut(){
 		
-		double alpha = Elbow.getAnalogInPosition();
-		double beta = ShoulderE.getAnalogInPosition();
+		double sPot = ShoulderE.getAnalogInPosition();
+		double ePot = Elbow.getAnalogInPosition();
+		double S_reach = -gamePad.rightStickY();
+		double E_reach = gamePad.leftStickX();
+		
+		if(sPot <= MAX_S && S_reach == 0){
+			ShoulderE.set(SHOULDER_STALL);
+		}
+		
+		if(ePot >= MAX_E && E_reach == 0){
+			Elbow.set(ELBOW_STALL);
+		}
+		return;
+	}
+	
+ 	public boolean MaxReachCheck(){
+		
+		double alpha = Elbow.getAnalogInPosition();		// |some math to convert to degrees|
+		double beta = ShoulderE.getAnalogInPosition();	// |some math to convert to degrees|
 		
 		double angleOne = 90 - beta;
 		double angleTwo = alpha - angleOne;
-		double lengthOne;
-		double lengthTwo;
+		double lengthOne = ARM_BICEP*Math.sin(angleOne);
+		double lengthTwo = ARM_TRIICEP*Math.sin(angleTwo);
+		boolean is15broke = false;
 		
-		boolean is15broke;
-		
-		
+		if((lengthOne + lengthTwo) >= MAX_REACH){
+			if(lengthOne >= lengthTwo){
+				ShoulderE.set(-SHOULDER_SPEED);
+			}
+			else if(lengthTwo > lengthOne){
+				Elbow.set(-ELBOW_SPEED);
+			}
+		}
+		else if(lengthOne+lengthTwo < MAX_REACH){
+			shoulderJoint();
+			elbowJoint();
+		}
+		return is15broke;
 	}
 
 	public void presets(){
@@ -181,6 +209,17 @@ public class ObstacleArmElbow implements RobotMap{
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
