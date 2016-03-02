@@ -27,7 +27,7 @@ public class GamePad extends Joystick {
 	private final static int dPad        = 0;  // dPad: Returns Angle in degrees {0,45,90,...,315}
 
 	// Instance variables
-	private double min = 0.01;
+	private double min = 0.10;
 	private double max = 1.00;
 
 	// Constructors 
@@ -59,21 +59,25 @@ public class GamePad extends Joystick {
 	}
 
 	public double rightTrigger() {
-		return rangeTester(getRawAxis(rTrigger));
+		double RT = getRawAxis(rTrigger);
+		return rangeTester(RT);
 	}
 
 	public double leftTrigger() {
-		return rangeTester(getRawAxis(lTrigger));
+		double LT = getRawAxis(lTrigger);
+		return rangeTester(LT);
 	}
 
 	public double rightStickX() {
-		return rangeTester(getRawAxis(rStickX));
+		double RX = getRawAxis(rStickX);
+		return rangeTester(RX);
 	}
 
 	public double rightStickY() {
-		return rangeTester(getRawAxis(rStickY));
+		double RY = getRawAxis(rStickY);
+		return rangeTester(RY);
 	}
-	
+
 	//Gets the squared  (^2)  value of every axis on the controller
 	public double quadraticLX(){
 		double LX1x2 = getRawAxis(lStickX);
@@ -125,7 +129,21 @@ public class GamePad extends Joystick {
 			value =  max;
 		else if(value < -max)
 			value = -max;
-		return value;
+		value = deadzoneScaler(value);
+		
+		return value;		
+	}
+	
+	private double deadzoneScaler(double value){
+	
+	double temp = Math.abs(value);
+	temp = (temp - min)/(max - min);
+
+	if(value < 0)
+		temp *= -1;
+	
+	return temp;
+	
 	}
 	
 	// Button methods
