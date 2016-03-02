@@ -17,6 +17,7 @@ public class Robot extends IterativeRobot implements RobotMap{
 	CameraServer Camera;
 	GamePad turnControl;
 	GamePad controller2;
+	GamePad steeringWheel;
 	DriveTrain scrubTrain;
     BallShooter shooter2;
     ObstacleArmElbow arm;
@@ -33,7 +34,8 @@ public class Robot extends IterativeRobot implements RobotMap{
          Camera.startAutomaticCapture( /*name to be found*/);
     	controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
     	turnControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
-    	scrubTrain = new DriveTrain(turnControl);
+    	steeringWheel = new GamePad(0);
+    	scrubTrain = new DriveTrain(turnControl, steeringWheel);
     	shooter2 = new BallShooter(controller2);
     	arm = new ObstacleArmElbow(controller2);
     	Camera.startAutomaticCapture("cam0");

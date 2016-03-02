@@ -28,10 +28,20 @@ boolean rightSwitch;
 double rawMagnitude;
 double preMagnitude;
 GamePad gamePad1;
+GamePad ferrariWheel;
+int startPos;
+int minPos;
+int maxPos;
+int posDif;
 
-public DriveTrain(GamePad driverPad) {
+public DriveTrain(GamePad driverPad, GamePad steeringWheel) {
 	
 	driverPad = gamePad1;
+    ferrariWheel = steeringWheel;
+	startPos = 524;
+	minPos = 180;
+	maxPos = 860;
+	posDif = startPos - minPos;
 	backMotor = new Victor(BACK_MOTOR);
 	leftMotor = new Victor(LEFT_MOTOR);
 	rightMotor = new Victor(RIGHT_MOTOR);
@@ -41,23 +51,25 @@ public DriveTrain(GamePad driverPad) {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	ninetyClicks = NINETY_CLICKS;
-	turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
-	turnMotor.setPosition(0);
-	turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-	turnMotor.reverseSensor(true);
+	//ninetyClicks = NINETY_CLICKS;
+	//turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
+	//turnMotor.setPosition(0);
+	turnMotor.setPosition(startPos);
+	//turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+	//turnMotor.reverseSensor(true);
 }	
 public void driveController() {
 	if(!gamePad1.startB() && !gamePad1.backB()) {
-		turnMotor.setPID(0.9, 0.004, 0.0);
+		//turnMotor.setPID(0.9, 0.004, 0.0);
     	double feedsd = gamePad1.quadraticLY();
-		double feeddir = gamePad1.rightStickX();     		
+		//double feeddir = gamePad1.rightStickX();   
+    	double feeddir = ferrariWheel.quadraticRX(); 
 		turnWheel(feeddir);
 		driveWheels(feedsd);
 	}
-	else {
+	/*else {
 		pivot();
-	}
+	}*/
 return;
 }
 public void testMotor(){
@@ -70,22 +82,22 @@ return;
 }
 //"Software Turn" stuff for the Back wheel changing angle  
 public void turnWheel(double direction){
-	double turn2 = direction*ninetyClicks;
-	int turn = (int)turn2;
+	//double turn2 = direction*ninetyClicks;
+	//int turn = (int)turn2;
+	int turn = (int)(direction * posDif) + startPos;
 	System.out.println("direction: " + direction);
 	System.out.println("forward: " + turnMotor.isFwdLimitSwitchClosed());
 	System.out.println("reverse: " + turnMotor.isRevLimitSwitchClosed());
 	System.out.println("turn: " + turn);
-	int position = turnMotor.getEncPosition();
+	//int position = turnMotor.getEncPosition();
+	int position = turnMotor.getAnalogInRaw();
 
-	if (position<-ninetyClicks && direction == -1)
-		turnMotor.setPosition(-ninetyClicks);
-	else if(position>ninetyClicks && direction == 1)
-		turnMotor.setPosition(ninetyClicks);
-	
-	
+	if (position >= turn && direction < 0)
+		turnMotor.set(-0.5);
+	else if(position <= turn && direction > 0)
+		turnMotor.set(0.5);
 	else
-	turnMotor.set(turn);
+		turnMotor.set(0);
 	
     return; 
 }
@@ -135,12 +147,12 @@ rightMotor.set(speedLeft);
 return;
 }
 public void pivot() {
-	turnMotor.setPID(0.0, 0.0, 0.0);
+	//turnMotor.setPID(0.0, 0.0, 0.0);
 	if(gamePad1.backB()) {
-		backMotor.setPosition(-1400);
+		//backMotor.setPosition(-1400);
 	}
 	else if(gamePad1.startB()) {
-	backMotor.setPosition(1400);
+	//backMotor.setPosition(1400);
 	}	
 }
 	}
