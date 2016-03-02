@@ -5,8 +5,11 @@ public interface RobotMap {
 	
 	public final static double FRAME_LENGTH = 23;
 	public final static double FRAME_WIDTH  = 23;
-	
-	
+	public final static int NINETY_CLICKS = 700;
+	public final static int BACK_MOTOR = 4;
+	public final static int LEFT_MOTOR = 6;
+	public final static int RIGHT_MOTOR = 5;
+	public final static int TURN_MOTOR = 3;
 	 
 	//==================Robot.Java=============================\\
 	

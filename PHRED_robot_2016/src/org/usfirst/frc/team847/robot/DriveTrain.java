@@ -3,7 +3,7 @@ package org.usfirst.frc.team847.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Victor;
 
-public class DriveTrain {
+public class DriveTrain implements RobotMap {
 
 Victor backMotor;
 Victor leftMotor;
@@ -13,8 +13,8 @@ CANTalon turnMotor;
 double speed1;
 double speed2;
 double speed3;
-double frameLength = 23;
-double frameWidth = 23;
+double frameLength = FRAME_LENGTH;
+double frameWidth = FRAME_WIDTH;
 double speedLeft;
 double speedRight;
 double speedBack;
@@ -32,28 +32,41 @@ GamePad gamePad1;
 public DriveTrain(GamePad driverPad) {
 	
 	driverPad = gamePad1;
-	backMotor = new Victor(4);
-	leftMotor = new Victor(6);
-	rightMotor = new Victor(5);
-	turnMotor = new CANTalon(3);
+	backMotor = new Victor(BACK_MOTOR);
+	leftMotor = new Victor(LEFT_MOTOR);
+	rightMotor = new Victor(RIGHT_MOTOR);
+	turnMotor = new CANTalon(TURN_MOTOR);
 	leftMotor.setInverted(true);
 	
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	ninetyClicks = 1400;
+	ninetyClicks = NINETY_CLICKS;
 	turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
 	turnMotor.setPosition(0);
 	turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 	turnMotor.reverseSensor(true);
-	turnMotor.setPID(0.9, 0.004, 0.0);
 }	
-
-public void testMotor(){
-//This was for testing stuff but it now is dead X |D
-//ORCAS WILL NEVER DIE                          X |
-// NOT This part under it though
+public void driveController() {
+	if(!gamePad1.startB() && !gamePad1.backB()) {
+		turnMotor.setPID(0.9, 0.004, 0.0);
+    	double feedsd = gamePad1.quadraticLY();
+		double feeddir = gamePad1.rightStickX();     		
+		turnWheel(feeddir);
+		driveWheels(feedsd);
+	}
+	else {
+		pivot();
+	}
 return;
+}
+public void testMotor(){
+turnMotor.set(0.5);
+return;
+	
+//This was for testing stuff but it now is dead X |D
+//ORCAS WILL NEVER DIE    :)     ORCAS!!!!!!!!!!
+// NOT This part under it though
 }
 //"Software Turn" stuff for the Back wheel changing angle  
 public void turnWheel(double direction){
@@ -74,7 +87,6 @@ public void turnWheel(double direction){
 	else
 	turnMotor.set(turn);
 	
-
     return; 
 }
 public void driveWheels(double speed){
@@ -103,12 +115,6 @@ longRadius = (shortRadius+frameWidth);
 speedRight = speed;
 speedLeft = speed * shortRadius/middleRadius;
 speedBack = speed * middleRadius/longRadius;
-if (speedBack>speedRight){
-speed1 = speedBack;
-speedBack = speedRight;
-speedRight = speed1;
-
-}
 }
 
 //"Left turn Code" 
@@ -122,15 +128,19 @@ longRadius = (shortRadius+frameWidth);
 speedLeft = speed;
 speedRight = speed * shortRadius/middleRadius;
 speedBack = speed * middleRadius/longRadius;
-if (speedBack>speedRight){
-speed1 = speedBack;
-speedBack = speedLeft;
-speedLeft = speed1;
-}
 }
 backMotor.set(speedBack);
 leftMotor.set(speedRight);
 rightMotor.set(speedLeft);
 return;
 }
+public void pivot() {
+	turnMotor.setPID(0.0, 0.0, 0.0);
+	if(gamePad1.backB()) {
+		backMotor.setPosition(-1400);
+	}
+	else if(gamePad1.startB()) {
+	backMotor.setPosition(1400);
+	}	
 }
+	}

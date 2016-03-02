@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class Robot extends IterativeRobot implements RobotMap{
-	
+
 	CameraServer Camera;
 	GamePad turnControl;
 	GamePad controller2;
@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot implements RobotMap{
 		shooter2.runShooter();
 		arm.shoulderJoint();
 		arm.elbowJoint();
-		
+		scrubTrain.driveController();
         Timer.delay(0.005);
         
         }
@@ -81,7 +81,7 @@ public class Robot extends IterativeRobot implements RobotMap{
      */
     public void testPeriodic() {
         while (isOperatorControl() && isEnabled()) {
-    	//scrubTrain.testMotor();
+    	scrubTrain.testMotor();
     	//arm.armTest();
     	Timer.delay(0.005);
     }
