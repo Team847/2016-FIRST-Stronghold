@@ -22,7 +22,6 @@ double radianDirection;
 double longRadius;
 double middleRadius;
 double shortRadius;
-double ninetyClicks;
 boolean leftSwitch;
 boolean rightSwitch;
 double rawMagnitude;
@@ -36,12 +35,11 @@ int posDif;
 
 public DriveTrain(GamePad driverPad, GamePad steeringWheel) {
 	
-	driverPad = gamePad1;
+	gamePad1 = driverPad;
     ferrariWheel = steeringWheel;
-	startPos = 524;
-	minPos = 180;
-	maxPos = 860;
-	posDif = startPos - minPos;
+	startPos = 506;
+	minPos = 148;
+	maxPos = 836;
 	backMotor = new Victor(BACK_MOTOR);
 	leftMotor = new Victor(LEFT_MOTOR);
 	rightMotor = new Victor(RIGHT_MOTOR);
@@ -51,22 +49,17 @@ public DriveTrain(GamePad driverPad, GamePad steeringWheel) {
 	backMotor.set(0);
 	leftMotor.set(0);
 	rightMotor.set(0);
-	//ninetyClicks = NINETY_CLICKS;
-	//turnMotor.changeControlMode (CANTalon.TalonControlMode.Position);
-	//turnMotor.setPosition(0);
-	turnMotor.setPosition(startPos);
-	//turnMotor.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-	//turnMotor.reverseSensor(true);
-}	
+}
+
 public void driveController() {
-	if(!gamePad1.startB() && !gamePad1.backB()) {
-		//turnMotor.setPID(0.9, 0.004, 0.0);
+
+	//if(!gamePad1.startB() && !gamePad1.backB()) {
     	double feedsd = gamePad1.quadraticLY();
-		//double feeddir = gamePad1.rightStickX();   
-    	double feeddir = ferrariWheel.quadraticRX(); 
-		turnWheel(feeddir);
+    	double feeddir = ferrariWheel.quadraticLX(); 
+
+    	turnWheel(feeddir);
 		driveWheels(feedsd);
-	}
+	//}
 	/*else {
 		pivot();
 	}*/
@@ -82,36 +75,50 @@ return;
 }
 //"Software Turn" stuff for the Back wheel changing angle  
 public void turnWheel(double direction){
-	//double turn2 = direction*ninetyClicks;
-	//int turn = (int)turn2;
-	int turn = (int)(direction * posDif) + startPos;
-	System.out.println("direction: " + direction);
-	System.out.println("forward: " + turnMotor.isFwdLimitSwitchClosed());
-	System.out.println("reverse: " + turnMotor.isRevLimitSwitchClosed());
-	System.out.println("turn: " + turn);
-	//int position = turnMotor.getEncPosition();
-	int position = turnMotor.getAnalogInRaw();
 
-	if (position >= turn && direction < 0)
-		turnMotor.set(-0.5);
-	else if(position <= turn && direction > 0)
-		turnMotor.set(0.5);
+	if(direction <= 0)
+		posDif = startPos - minPos;
 	else
-		turnMotor.set(0);
+		posDif = maxPos - startPos;
+	
+	int turn = (int)(direction * posDif) + startPos;
+
+	moveToTarget(turn);
 	
     return; 
 }
+
+private void moveToTarget(int targetPosition){
+	
+	double speed = 0;
+	
+	int currentPosition = turnMotor.getAnalogInRaw();
+	int distanceToTarget = Math.abs(targetPosition - currentPosition);
+	
+	if(distanceToTarget > 100)
+		speed = 0.5;
+	else if(distanceToTarget > 50)
+		speed = 0.4;
+	else if(distanceToTarget > 30)
+		speed = 0.3;
+	else if(distanceToTarget > 15)
+		speed = 0.2;
+	else if(distanceToTarget > 2)
+		speed = 0.1;
+	else
+		speed = 0;
+	
+	if (currentPosition > targetPosition)
+		speed *= -1;
+
+	turnMotor.set(speed);
+
+}
+
 public void driveWheels(double speed){
-	
-//"Speed Ramping" This is The Part where It ramps the speed up to a faster speed the longer you hold the joystick
-	preMagnitude = rawMagnitude;
-	rawMagnitude = gamePad1.getMagnitude() ;
-	
-	rawMagnitude = preMagnitude + ((rawMagnitude - preMagnitude)/50);
-	
-	speed = rawMagnitude;
-	
-			radianDirection = turnMotor.getEncPosition()*Math.PI/(ninetyClicks*2);
+
+radianDirection = (-(turnMotor.getAnalogInRaw()-startPos))*Math.PI/(posDif*2);
+System.out.println("radianDirection:   " + radianDirection);
 //"Speed" This sets the speed of the wheels also makes it go straight when going forwards 
 if (radianDirection > -0.01 && radianDirection <0.1){
 speedLeft = speed;
@@ -119,7 +126,7 @@ speedRight = speed;
 speedBack = speed;
 }
 
-//"Right Turn Code" gets the wheel speed to change dependingon how fast and sharp of a turn you want while turning right
+//"Right Turn Code" gets the wheel speed to change depending on how fast and sharp of a turn you want while turning right
 if (radianDirection <= -0.01 && radianDirection >= Math.PI/-2 ) {
 middleRadius = frameLength/(Math.sin(Math.abs(radianDirection)));
 shortRadius = (middleRadius*Math.cos(Math.abs(radianDirection)))- (frameWidth/2);

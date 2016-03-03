@@ -13,6 +13,7 @@ public interface RobotMap {
 	 
 	//==================Robot.Java=============================\\
 	
+	public final static int TURN_CONTROL = 0;
 	public final static int DRIVE_GAMEPAD = 1;
 	public final static int OBJ_MANIP_GAMEPAD = 2;
 	

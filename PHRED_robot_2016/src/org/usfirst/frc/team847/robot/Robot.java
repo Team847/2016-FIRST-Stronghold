@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Robot extends IterativeRobot implements RobotMap{
 
-	CameraServer Camera;
-	GamePad turnControl;
+//	CameraServer Camera;
+	GamePad speedControl;
 	GamePad controller2;
-	GamePad steeringWheel;
+	GamePad steeringControl;
 	DriveTrain scrubTrain;
-    BallShooter shooter2;
-    ObstacleArmElbow arm;
+//    BallShooter shooter2;
+//    ObstacleArmElbow arm;
     double up;
     double down;
 	/**
@@ -29,16 +29,16 @@ public class Robot extends IterativeRobot implements RobotMap{
      */
 
     public void robotInit() {
-    	 Camera = CameraServer.getInstance();
-         Camera.setQuality(50);
-         Camera.startAutomaticCapture( /*name to be found*/);
+//    	  Camera = CameraServer.getInstance();
+//        Camera.setQuality(50);
+//        Camera.startAutomaticCapture( /*name to be found*/);
     	controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
-    	turnControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
-    	steeringWheel = new GamePad(0);
-    	scrubTrain = new DriveTrain(turnControl, steeringWheel);
-    	shooter2 = new BallShooter(controller2);
-    	arm = new ObstacleArmElbow(controller2);
-    	Camera.startAutomaticCapture("cam0");
+    	speedControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
+    	steeringControl = new GamePad(TURN_CONTROL);
+    	scrubTrain = new DriveTrain(speedControl, steeringControl);
+//    	shooter2 = new BallShooter(controller2);
+//    	arm = new ObstacleArmElbow(controller2);
+//    	Camera.startAutomaticCapture("cam0");
     }
     
 	/**
@@ -64,28 +64,24 @@ public class Robot extends IterativeRobot implements RobotMap{
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        while (isOperatorControl() && isEnabled()) {
 //    	double feedsd = turnControl.quadraticLY();
 //		double feeddir = turnControl.rightStickX();     		
 //		scrubTrain.turnWheel(feeddir);
 //		scrubTrain.driveWheels(feedsd);
-		shooter2.runShooter();
-		arm.shoulderJoint();
-		arm.elbowJoint();
+//		shooter2.runShooter();
+//		arm.shoulderJoint();
+//		arm.elbowJoint();
 		scrubTrain.driveController();
         Timer.delay(0.005);
         
-        }
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-        while (isOperatorControl() && isEnabled()) {
     	scrubTrain.testMotor();
     	//arm.armTest();
     	Timer.delay(0.005);
-    }
 }
 }
