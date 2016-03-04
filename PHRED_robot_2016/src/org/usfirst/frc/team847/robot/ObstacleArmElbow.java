@@ -21,6 +21,9 @@ public class ObstacleArmElbow implements RobotMap{
 	boolean shoulderMash;
 	boolean elbowMash;
 	
+	boolean elbow15 = false;
+	boolean shoulder15 = false;
+	
 	public ObstacleArmElbow(GamePad xbox){
 		
 		gamePad = xbox;
@@ -50,20 +53,49 @@ public class ObstacleArmElbow implements RobotMap{
 		
 		return;
 	}
+		
+ 	public void MaxReachCheck(){
+		
+ 		//alpha and beta are elbow and shoulder Pot. values transformed into degrees
+		double alpha = ((Elbow.getAnalogInPosition()*270)/1024);
+		double beta = ((ShoulderE.getAnalogInPosition()*270)/1024);
+		
+		double angleOne = 90 - beta;
+		double angleTwo = alpha - angleOne;
+		double lengthOne = ARM_BICEP*Math.sin(angleOne);
+		double lengthTwo = ARM_TRIICEP*Math.sin(angleTwo);
+		double totalLength = lengthOne + lengthTwo;
+		
+		if(totalLength >= MAX_REACH && lengthOne >= lengthTwo){
+				shoulder15 = true;
+			}
+			else if(totalLength >= MAX_REACH && lengthTwo > lengthOne){
+				elbow15 = true;
+			}
+		
+			else{
+				shoulder15 = false;
+				elbow15 = false;
+			}
+			return;
+ 	}
 	
 	public void shoulderJoint(){
-				
+
 		double reach_S = -gamePad.rightStickY();
 		double sPot = ShoulderE.getAnalogInPosition(); 
 		
-		if(sPot >= MAX_S && reach_S > 0){
+		if(shoulder15)
+			ShoulderE.set(0);
+		
+		else if(sPot >= MAX_S && reach_S > 0){
 			ShoulderE.set(0);
 		}
 		else if(sPot <= MIN_S && reach_S < 0){
 			ShoulderE.set(0);
 		}
-		else ShoulderE.set(reach_S);
-		
+		else
+			ShoulderE.set(reach_S);
 		return;
 		}
 		
@@ -72,14 +104,17 @@ public class ObstacleArmElbow implements RobotMap{
 		double reach_E = gamePad.leftStickY();
 		double ePot = Elbow.getAnalogInPosition();
 		
-		if(ePot <= MAX_E && reach_E < 0){
-			
+		if(elbow15)
+			Elbow.set(0);
+		
+		else if(ePot <= MAX_E && reach_E < 0){
 			Elbow.set(0);
 		}
 		else if(ePot >= MIN_E && reach_E > 0){
-				Elbow.set(0);
+			Elbow.set(0);
 		}
-		else Elbow.set(reach_E);
+		else
+			Elbow.set(reach_E);
 		
 		return;
 		}
@@ -101,32 +136,6 @@ public class ObstacleArmElbow implements RobotMap{
 		return;
 	}
 	
- 	public boolean MaxReachCheck(){
-		
-		double alpha = Elbow.getAnalogInPosition();		// |some math to convert to degrees|
-		double beta = ShoulderE.getAnalogInPosition();	// |some math to convert to degrees|
-		
-		double angleOne = 90 - beta;
-		double angleTwo = alpha - angleOne;
-		double lengthOne = ARM_BICEP*Math.sin(angleOne);
-		double lengthTwo = ARM_TRIICEP*Math.sin(angleTwo);
-		boolean is15broke = false;
-		
-		if((lengthOne + lengthTwo) >= MAX_REACH){
-			if(lengthOne >= lengthTwo){
-				ShoulderE.set(-SHOULDER_SPEED);
-			}
-			else if(lengthTwo > lengthOne){
-				Elbow.set(-ELBOW_SPEED);
-			}
-		}
-		else if(lengthOne+lengthTwo < MAX_REACH){
-			shoulderJoint();
-			elbowJoint();
-		}
-		return is15broke;
-	}
-
 	public void presets(){
 		
 		int armFlag = 0;
@@ -208,52 +217,15 @@ public class ObstacleArmElbow implements RobotMap{
 			break;
 		}
 	}
+
+	public void armManager(){
+		MaxReachCheck();
+		shoulderJoint();
+		elbowJoint();
+	}
+
+
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
- * _________________________________________________
- * |\                                               \             
- * | \                                               \             
- * |  \                                               \             
- * \   \                                               \             
- *  \   \                                               \             
- *   \   \                                               \             
- *    \   \                                               \             
- *  __ \   \                                               \             
- * |\   \   \                                               \    
- * | \   \   \                                               \               
- * |  \   \   \                                               \             
- * |   \   \   \                                               \               
- *  \   \   \   \                                               \                
- *   \   \   \   \                                               \              
- *    \   \   \   \                                               \               
- *     \   \   \   \                                               \        
- *      \   \   \   \                                               \              
- *       \   \   \   \                                               \            
- *        \   \   \   \                                               \           
- *         \   \   \ \_______________________________________________\                                                            
- *          \   \   \|                                                |         
- *           \   \   |                                                |            
- *            \   \  |________________________________________________|                                                                
- *             \   \                                                                                                             
- *              \   \___________________________________________________
- *               \  |                                                   |
- *                \ |                                                   |
- *                 \|___________________________________________________|
- */
 
