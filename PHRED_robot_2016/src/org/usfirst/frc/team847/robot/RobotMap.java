@@ -10,6 +10,11 @@ public interface RobotMap {
 	public final static int LEFT_MOTOR = 6;
 	public final static int RIGHT_MOTOR = 5;
 	public final static int TURN_MOTOR = 3;
+	
+	// Pot positioning data
+	public final static int START_POSITION = 506;
+	public final static int MIN_POSITION = 148;
+	public final static int MAX_POSITION = 836;
 	 
 	//==================Robot.Java=============================\\
 	
