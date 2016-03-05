@@ -55,22 +55,21 @@ public class ObstacleArmElbow implements RobotMap{
 		
  		
  		//alpha and beta are elbow and shoulder Pot. values transformed into degrees
-		double alpha = 180-((ePot - MIN_E)*45); // current angle of elbow
-		double beta  =	   ((MAX_S - sPot)*45) + 45; //current angle of shoulder
+		double alpha = Math.toRadians(180 - ((ePot - MIN_E)*45)); // current angle of elbow
+		double beta  = Math.toRadians(90  - ((MIN_S - sPot)*45)); //current angle of shoulder
+		double outer_beta = Math.toRadians(90 - (sPot*45));
 		
-		double angleOne = 90 - beta;
-		double angleTwo = alpha - angleOne;
-		double lengthOne = ARM_BICEP*Math.sin(angleOne);
-		double lengthTwo = ARM_TRICEP*Math.sin(angleTwo);
+		double angleOne    = alpha - outer_beta;
+		double lengthOne   = ARM_BICEP*(Math.cos(Math.abs(beta)));
+		double lengthTwo   = ARM_TRICEP*Math.sin(angleOne);
 		double totalLength = lengthOne + lengthTwo;
 		
-		//System.out.println("alpha:        " + alpha);
-		//System.out.println("beta:         " + beta);
-		//System.out.println("angleOne:     " + angleOne);
-		//System.out.println("angleTwo:     " + angleTwo);
-		System.out.println("lengthOne:    " + lengthOne);
-		System.out.println("lengthTwo:    " + lengthTwo);
-		System.out.println("totalLength:  " + totalLength);
+		System.out.println("alpha:          " + alpha);
+		System.out.println("beta:           " + beta);
+		System.out.println("angleOne:       " + angleOne);
+		System.out.println("lengthOne:      " + lengthOne);
+		System.out.println("lengthTwo:      " + lengthTwo);
+		System.out.println("totalLength:    " + totalLength);
 		
 /*		if(totalLength >= MAX_REACH && lengthOne >= lengthTwo){
 				shoulder15 = true;
