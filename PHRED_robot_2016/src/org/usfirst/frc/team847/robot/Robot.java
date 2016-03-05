@@ -20,7 +20,7 @@ public class Robot extends IterativeRobot implements RobotMap{
 	GamePad steeringControl;
 	DriveTrain scrubTrain;
 //    BallShooter shooter2;
-//    ObstacleArmElbow arm;
+	ObstacleArmElbow arm;
     double up;
     double down;
 	/**
@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot implements RobotMap{
     	steeringControl = new GamePad(TURN_CONTROL);
     	scrubTrain = new DriveTrain(speedControl, steeringControl);
 //    	shooter2 = new BallShooter(controller2);
-//    	arm = new ObstacleArmElbow(controller2);
+    	arm = new ObstacleArmElbow(controller2);
 //    	Camera.startAutomaticCapture("cam0");
     }
     
@@ -69,9 +69,8 @@ public class Robot extends IterativeRobot implements RobotMap{
 //		scrubTrain.turnWheel(feeddir);
 //		scrubTrain.driveWheels(feedsd);
 //		shooter2.runShooter();
-//		arm.shoulderJoint();
-//		arm.elbowJoint();
-		scrubTrain.driveController();
+    	arm.armManager();
+    	scrubTrain.driveController();
         Timer.delay(0.005);
         
     }
@@ -80,8 +79,8 @@ public class Robot extends IterativeRobot implements RobotMap{
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	scrubTrain.testMotor();
-    	//arm.armTest();
-    	Timer.delay(0.005);
+//    	scrubTrain.testMotor();
+    	arm.armTest();
+//    	Timer.delay(0.005);
 }
 }
