@@ -129,7 +129,7 @@ public class GamePad extends Joystick {
 			value =  max;
 		else if(value < -max)
 			value = -max;
-		value = deadzoneScaler(value);
+//		value = deadzoneScaler(value);
 		
 		return value;		
 	}
