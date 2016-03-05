@@ -24,8 +24,8 @@ public interface RobotMap {
 	
 	//============================Ball shooter===========//
 	 
-	 public final static double BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE = 1.0;
-	 public final static double TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE = -1.0;
+	 public final static double BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE = -1.0;
+	 public final static double TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE = 1.0;
 	 public final static int SHOOT = 1;
 	 public final static int EXPELL = 2;
 	 public final static int INTAKE = 3;

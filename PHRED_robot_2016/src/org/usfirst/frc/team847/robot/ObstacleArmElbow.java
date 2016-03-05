@@ -68,9 +68,9 @@ public class ObstacleArmElbow implements RobotMap{
 		//System.out.println("beta:         " + beta);
 		//System.out.println("angleOne:     " + angleOne);
 		//System.out.println("angleTwo:     " + angleTwo);
-		//System.out.println("lengthOne:    " + lengthOne);
-		//System.out.println("lengthTwo:    " + lengthTwo);
-		//System.out.println("totalLength:  " + totalLength);
+		System.out.println("lengthOne:    " + lengthOne);
+		System.out.println("lengthTwo:    " + lengthTwo);
+		System.out.println("totalLength:  " + totalLength);
 		
 /*		if(totalLength >= MAX_REACH && lengthOne >= lengthTwo){
 				shoulder15 = true;

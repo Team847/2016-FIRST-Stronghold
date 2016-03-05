@@ -62,7 +62,8 @@ public class BallShooter implements RobotMap {
         }
    /**Hello
     *
-   */   
+   */
+  
         switch(flag) {
             case 1:    //shoot:
                 topShooterMotor.set(TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE);
@@ -81,8 +82,8 @@ public class BallShooter implements RobotMap {
                     
                 break;
 
-			case 3: //intake: 
-                if(lazer.get()) {
+			case 3: //intake:
+				if(lazer.get()) {
                     rollerMotor.set(Relay.Value.kForward);
                     break;
                 }
