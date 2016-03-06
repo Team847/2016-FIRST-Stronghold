@@ -21,6 +21,8 @@ public class ObstacleArmElbow implements RobotMap{
 	
 	boolean elbow15 = false;
 	boolean shoulder15 = false;
+	boolean elbow_soft_stop = false;
+	boolean shoulder_softstop = false;
 	
 	double sPot;
 	double ePot;
@@ -51,39 +53,36 @@ public class ObstacleArmElbow implements RobotMap{
 		return;
 	}
 		
- 	public void MaxReachCheck(){
-		
- 		
+	public void MaxReachCheck(){
+				
  		//alpha and beta are elbow and shoulder Pot. values transformed into degrees
-		double alpha = Math.toRadians(180 - ((ePot - MIN_E)*45)); // current angle of elbow
-		double beta  = Math.toRadians(90  - ((MIN_S - sPot)*45)); //current angle of shoulder
-		double outer_beta = Math.toRadians(90 - (sPot*45));
+		double alpha       = Math.toRadians(180 - ((ePot - MIN_E)*45)); // current angle of elbow
+		double outer_beta  = Math.toRadians((sPot - MIN_S)*45);
+		double beta        = 90 - outer_beta; //current angle of shoulder
 		
 		double angleOne    = alpha - outer_beta;
-		double lengthOne   = ARM_BICEP*(Math.cos(Math.abs(beta)));
-		double lengthTwo   = ARM_TRICEP*Math.sin(angleOne);
+		double lengthOne   = ARM_BICEP*(Math.cos(beta));
+		double lengthTwo   = ARM_TRICEP*(Math.sin(angleOne));
 		double totalLength = lengthOne + lengthTwo;
 		
-		System.out.println("alpha:          " + alpha);
-		System.out.println("beta:           " + beta);
-		System.out.println("angleOne:       " + angleOne);
-		System.out.println("lengthOne:      " + lengthOne);
-		System.out.println("lengthTwo:      " + lengthTwo);
-		System.out.println("totalLength:    " + totalLength);
+		System.out.println("      alpha:      " + alpha);
+		System.out.println("       beta:      " + beta);
+		System.out.println(" outer_beta:      " + outer_beta);
+		System.out.println("   angleOne:      " + angleOne);
+		System.out.println("  lengthOne:      " + lengthOne);
+		System.out.println("  lengthTwo:      " + lengthTwo);
+		System.out.println("totalLength:      " + totalLength);
 		
-/*		if(totalLength >= MAX_REACH && lengthOne >= lengthTwo){
-				shoulder15 = true;
-			}
-			else if(totalLength >= MAX_REACH && lengthTwo > lengthOne){
-				elbow15 = true;
-			}
-		
-			else{
-				shoulder15 = false;
-				elbow15 = false;
-			}
+		if(totalLength >= MAX_REACH){
+			shoulder15 = true;
+			elbow15 = true;
+		}
+		else{
+			shoulder15 = false;
+			elbow15 = false;
+		}
 			return;
-			*/
+			
  	}
 	
 	public void shoulderJoint(){
@@ -92,7 +91,7 @@ public class ObstacleArmElbow implements RobotMap{
 		
 //		System.out.println(reach_S);
 		
-		if(shoulder15)
+		if(shoulder15 && reach_S > 0)
 			ShoulderE.set(0);
 		
 		else if(sPot >= MAX_S && reach_S > 0){
@@ -110,13 +109,10 @@ public class ObstacleArmElbow implements RobotMap{
 		
 		double reach_E = -gamePad.leftStickY();
 		
-		System.out.println("Elbow Potentiometer:   " + ePot);
-		System.out.println("reachE: " + reach_E);
-		
-		if(elbow15)
+		if(elbow15 && reach_E > 0)
 			Elbow.set(0);
 		
-		else if(ePot >= MAX_E && reach_E < 0){
+		if(ePot >= MAX_E && reach_E < 0){
 			Elbow.set(0);
 		}
 		else if(ePot <= MIN_E && reach_E > 0){
@@ -228,11 +224,11 @@ public class ObstacleArmElbow implements RobotMap{
 	public void armManager(){
 		sPot = pShoulder.getVoltage();
 		ePot = pElbow.getVoltage();
-		MaxReachCheck();
+//		MaxReachCheck();
 		shoulderJoint();
 		elbowJoint();
-//		System.out.println("Shoulder:    " + sPot);
-//		System.out.println("Elbow:    " + ePot);
+		System.out.println("Shoulder:    " + sPot);
+		System.out.println("Elbow:    " + ePot);
 	}
 
 

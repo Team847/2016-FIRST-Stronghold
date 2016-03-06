@@ -39,10 +39,10 @@ public interface RobotMap {
 	public final static double ELBOW_SPEED = .8;
 	public final static double SHOULDER_SPEED = .5;
 	
-	public final static double MAX_S = 3.199;
-	public final static double MIN_S = 2.448;
+	public final static double MAX_S = 2.539; // "lower limit", "flat", "flat out"
+	public final static double MIN_S = 2.448; // "upright", "90 degrees", "standing tall"
 	
-	public final static double MIN_E = 0.507;
+	public final static double MIN_E = 1.540;
 	public final static double MAX_E = 4.796;
 	
 	public final static double MAX_REACH = 29;
