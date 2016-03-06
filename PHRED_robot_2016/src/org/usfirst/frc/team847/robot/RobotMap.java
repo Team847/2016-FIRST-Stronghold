@@ -29,7 +29,7 @@ public interface RobotMap {
 	 public final static int SHOOT = 1;
 	 public final static int EXPELL = 2;
 	 public final static int INTAKE = 3;
-	    
+	 
 	//=================================ARM=================================//
 	
 
