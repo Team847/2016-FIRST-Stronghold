@@ -1,235 +1,137 @@
 package org.usfirst.frc.team847.robot;
-
 import edu.wpi.first.wpilibj.*;
 
 public class ObstacleArmElbow implements RobotMap{
 
 	GamePad gamePad;
 	
-	AnalogInput pShoulder = new AnalogInput(ANALOG_IN_SHOULDER);
-	AnalogInput pElbow = new AnalogInput(ANALOG_IN_ELBOW);
-	
-	CANTalon ShoulderE = new CANTalon(CANTALON_SHOULDER);
 	CANTalon Elbow = new CANTalon(CANTALON_ELBOW);
+	CANTalon Shoulder = new CANTalon(CANTALON_SHOULDER);
 	
-	boolean shoulderEFWD;
-	boolean shoulderEREV;
-	boolean elbowFWD;
-	boolean elbowREV;
-	boolean shoulderMash;
-	boolean elbowMash;
-	
-	boolean elbow15 = false;
-	boolean shoulder15 = false;
-	boolean elbow_soft_stop = false;
-	boolean shoulder_softstop = false;
-	
-	double sPot;
-	double ePot;
+	double ePosition;
+	double sPosition;
+	boolean elbowQuadrantOne = true;
+	boolean is15broke = false;
+	boolean isHeightBroke = false;
 	
 	public ObstacleArmElbow(GamePad xbox){
-		
 		gamePad = xbox;
 		
-		ShoulderE.set(0);
+		Shoulder.set(0);
 		Elbow.set(0);
-		
-		shoulderEFWD = ShoulderE.isFwdLimitSwitchClosed();
-		shoulderEREV = ShoulderE.isRevLimitSwitchClosed();
-		
-		elbowFWD = Elbow.isFwdLimitSwitchClosed();
-		elbowREV = Elbow.isRevLimitSwitchClosed();
 	}
+	
+	public void moveArm (){
 
-	public void armTest(){
+		ePosition = Elbow.getAnalogInPosition();
+		sPosition = Shoulder.getAnalogInPosition();
 
-		ShoulderE.set(gamePad.leftStickY());
-		Elbow.set(gamePad.rightStickY());
-		
-		System.out.println("Shoulder:     " + pShoulder.getVoltage());
-		System.out.println("   Elbow:     " + pElbow.getVoltage());
-		System.out.println("Joystick:     " + gamePad.rightStickY());
-		
-		return;
+		MaxReachCheck();
+		shoulderJoint();
+		elbowJoint();
 	}
-		
-	public void MaxReachCheck(){
-				
- 		//alpha and beta are elbow and shoulder Pot. values transformed into degrees
-		double alpha       = Math.toRadians(180 - ((ePot - MIN_E)*45)); // current angle of elbow
-		double outer_beta  = Math.toRadians((sPot - MIN_S)*45);
-		double beta        = 90 - outer_beta; //current angle of shoulder
-		
-		double angleOne    = alpha - outer_beta;
-		double lengthOne   = ARM_BICEP*(Math.cos(beta));
-		double lengthTwo   = ARM_TRICEP*(Math.sin(angleOne));
-		double totalLength = lengthOne + lengthTwo;
-		
-		System.out.println("      alpha:      " + alpha);
-		System.out.println("       beta:      " + beta);
-		System.out.println(" outer_beta:      " + outer_beta);
-		System.out.println("   angleOne:      " + angleOne);
-		System.out.println("  lengthOne:      " + lengthOne);
-		System.out.println("  lengthTwo:      " + lengthTwo);
-		System.out.println("totalLength:      " + totalLength);
-		
-		if(totalLength >= MAX_REACH){
-			shoulder15 = true;
-			elbow15 = true;
-		}
-		else{
-			shoulder15 = false;
-			elbow15 = false;
-		}
-			return;
-			
- 	}
 	
 	public void shoulderJoint(){
-
+				
 		double reach_S = -gamePad.rightStickY();
 		
-//		System.out.println(reach_S);
+		if(is15broke && reach_S > 0)
+			reach_S = 0;
+
+		if(isHeightBroke && reach_S < 0)
+			reach_S = 0;
 		
-		if(shoulder15 && reach_S > 0)
-			ShoulderE.set(0);
+		if(reach_S > 0){
+			if(sPosition >= MAX_S && reach_S > 0)
+				reach_S = 0;
+			else if(sPosition <= MIN_S && reach_S < 0)
+				reach_S = 0;
+		}
 		
-		else if(sPot >= MAX_S && reach_S > 0){
-			ShoulderE.set(0);
-		}
-		else if(sPot <= MIN_S && reach_S < 0){
-			ShoulderE.set(0);
-		}
-		else
-			ShoulderE.set(reach_S);
-		return;
-		}
+		Shoulder.set(reach_S);
+	}
 		
 	public void elbowJoint(){
 		
-		double reach_E = -gamePad.leftStickY();
+		double reach_E = gamePad.leftStickY();
 		
-		if(elbow15 && reach_E > 0)
-			Elbow.set(0);
+		if(is15broke){
+			if(elbowQuadrantOne && reach_E > 0)
+				reach_E = 0;
+			else if(!elbowQuadrantOne && reach_E < 0)
+				reach_E = 0;
+		}
 		
-		if(ePot >= MAX_E && reach_E < 0){
-			Elbow.set(0);
+		if(isHeightBroke && elbowQuadrantOne && reach_E < 0)
+			reach_E = 0;
+		
+		if(reach_E > 0){
+			if(ePosition <= MIN_E && reach_E < 0)
+				reach_E = 0;
+			else if(ePosition >= MAX_E && reach_E > 0)
+				reach_E = 0;
 		}
-		else if(ePot <= MIN_E && reach_E > 0){
-			Elbow.set(0);
+
+		Elbow.set(reach_E);
+	}
+	
+ 	public void MaxReachCheck(){
+		
+/*		double alpha = Elbow.getAnalogInPosition();		// |some math to convert to degrees|
+		double beta = ShoulderE.getAnalogInPosition();	// |some math to convert to degrees|
+		
+		double angleOne = 90 - beta;
+		double angleTwo = alpha - angleOne;
+		double lengthOne = ARM_BICEP*Math.sin(angleOne);
+		double lengthTwo = ARM_TRIICEP*Math.sin(angleTwo);
+
+		
+		if((lengthOne + lengthTwo) >= MAX_REACH){
+			if(lengthOne >= lengthTwo){
+				ShoulderE.set(-SHOULDER_SPEED);
+			}
+			else if(lengthTwo > lengthOne){
+				Elbow.set(-ELBOW_SPEED);
+			}
 		}
+		else if(lengthOne+lengthTwo < MAX_REACH){
+			shoulderJoint();
+			elbowJoint();
+		}
+		return is15broke;
+*/
+		double VoltToAngle = Math.PI/4;   //Multiplier to convert volts to an angle, radians/volt
+		double ninetyDegrees = Math.PI/2; //Radians in 90 degrees
+
+		double angleOne = (sPosition - MIN_S) * VoltToAngle;
+		double lengthOne = ARM_BICEP * Math.sin(angleOne);
+		double heightOne = ARM_BICEP * Math.cos(angleOne);
+		
+		double angleTwo = (ePosition - MIN_E) * VoltToAngle;
+		double heightTwo;
+		
+		if(angleTwo > ninetyDegrees){
+			heightTwo = 0;
+			elbowQuadrantOne = false;
+			angleTwo = Math.PI - angleTwo;
+		} else {
+			heightTwo = ARM_TRICEP * Math.cos(angleTwo);
+			elbowQuadrantOne = true;
+		}
+		
+		double lengthTwo = ARM_TRICEP * Math.sin(angleTwo);
+		
+		if(lengthOne + lengthTwo >= MAX_REACH)
+			is15broke = true;
 		else
-			Elbow.set(reach_E);
+			is15broke = false;
 		
+		if(heightOne + heightTwo > MAX_HEIGHT)
+			isHeightBroke = true;
+		else
+			isHeightBroke = false;
+
 		return;
-		}
-	
-	public void stallOut(){
-
-		double S_reach = -gamePad.rightStickY();
-		double E_reach = gamePad.leftStickX();
 		
-		if(sPot <= MAX_S && S_reach == 0){
-			ShoulderE.set(SHOULDER_STALL);
-		}
-		
-		if(ePot >= MAX_E && E_reach == 0){
-			Elbow.set(ELBOW_STALL);
-		}
-		return;
-	}
-	
-	public void presets(){
-		
-		int armFlag = 0;
-		boolean liftRoutine = gamePad.xButton();
-		boolean upPreset = gamePad.lStickPressed();
-		boolean downPreset = gamePad.rStickPressed();
-		
-		if(liftRoutine){
-			armFlag = PORTCULLIS_LIFT;
-		}
-		else if(upPreset){
-			armFlag = SET_UP;
-		}
-		else if(downPreset){
-			armFlag = SET_DOWN;
-		}
-		else armFlag = 0;
-		
-		switch(armFlag){
-		
-		case 1: //Portcullis lift
-			
-			if(sPot < SHOULDER_STEP_ONE){
-				ShoulderE.set(SHOULDER_SPEED);
-			}
-			if(ePot < ELBOW_STEP_ONE){
-				Elbow.set(SHOULDER_SPEED);
-			}
-			if(sPot > SHOULDER_STEP_TWO){
-				ShoulderE.set(-SHOULDER_SPEED);
-			}
-			if(ePot > ELBOW_STEP_TWO){
-				Elbow.set(-SHOULDER_SPEED);
-			}
-			
-			else{
-				ShoulderE.set(0);
-				Elbow.set(0);
-			}
-			
-			break;
-		case 2: //Set up position
-			if(sPot < SHOULDER_UP_PRESET){
-				ShoulderE.set(SHOULDER_SPEED);
-			}
-			if(sPot > SHOULDER_UP_PRESET){
-				ShoulderE.set(-SHOULDER_SPEED);
-			}
-			else ShoulderE.set(0);
-			
-			if(ePot < ELBOW_UP_PRESET){
-				Elbow.set(ELBOW_SPEED);
-			}
-			if(ePot > ELBOW_UP_PRESET){
-				Elbow.set(-ELBOW_SPEED);
-			}
-			else Elbow.set(0);
-			
-			break;
-			
-		case 3: //Set down position
-			
-			if(sPot < SHOULDER_DOWN_PRESET){
-				ShoulderE.set(SHOULDER_SPEED);
-			}
-			if(sPot > SHOULDER_DOWN_PRESET){
-				ShoulderE.set(-SHOULDER_SPEED);
-			}
-			else ShoulderE.set(0);
-			
-			if(ePot < ELBOW_DOWN_PRESET){
-				Elbow.set(ELBOW_SPEED);
-			}
-			if(ePot > ELBOW_DOWN_PRESET){
-				Elbow.set(-ELBOW_SPEED);
-			}
-			else Elbow.set(0);
-			
-			break;
-		}
-	}
-
-	public void armManager(){
-		sPot = pShoulder.getVoltage();
-		ePot = pElbow.getVoltage();
-//		MaxReachCheck();
-		shoulderJoint();
-		elbowJoint();
-		System.out.println("Shoulder:    " + sPot);
-		System.out.println("Elbow:    " + ePot);
-	}
-
-
+ 	}
 }

@@ -45,6 +45,7 @@ public interface RobotMap {
 	public final static double MIN_E = 1.540;
 	public final static double MAX_E = 4.796;
 	
+	public final static double MAX_HEIGHT = 54 - 7.5;
 	public final static double MAX_REACH = 29;
 	public final static double ARM_BICEP = 26;
 	public final static double ARM_TRICEP = 27.5;

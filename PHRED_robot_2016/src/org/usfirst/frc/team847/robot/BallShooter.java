@@ -23,15 +23,28 @@ public class BallShooter implements RobotMap {
     Victor bottomShooterMotor;
     Victor topShooterMotor;
     DigitalInput lazer;
+    
+    boolean buttonUp = false;
+    boolean buttonDown = false;
+    boolean upTrue = false;
+    boolean downTrue = false;
+    boolean bUp = false;
+    boolean bDown = false;
+    
     int flag = 0;
     int i = 0;
+    
     GamePad shooter;
+    GamePad sharedgamePad;
+    
     Victor Elevator;
     DigitalInput elevatorUp;
     DigitalInput elevatorDown;
-    public BallShooter(GamePad objectManipulation) {
+    
+    public BallShooter(GamePad objectManipulation, GamePad sharedPad) {
 		shooter = objectManipulation;
-//   	tiltMotor = new Victor(3);
+		sharedgamePad = sharedPad;
+//   	tiltMotor = new Victor(3); Elevator
 		bottomShooterMotor = new Victor(2);
 		topShooterMotor = new Victor(1);
 		rollerMotor = new Relay(3);
@@ -41,15 +54,18 @@ public class BallShooter implements RobotMap {
 		elevatorDown = new DigitalInput(2);
     }
     public void runShooter(){
+    	
     	elevator();
-    if (elevator()){shootingMethod();}
-    // runs the elevator you check the button you used for the shooter
+    	
+    	if(elevatorDown.get())
+    		shootingMethod();
+    // runs the elevator you check the button you used for the shooter Elevator
     return;
     }
     
     public void shootingMethod() {
 
-        //System.out.println("lazer = " + lazer.get());
+        //System.out.println("lazer = " + lazer.get(An Elevator));
 
         if(shooter.lBumper()) {
             flag = INTAKE;
@@ -61,8 +77,9 @@ public class BallShooter implements RobotMap {
             flag = 0;
         }
    /**Hello
-    *
    */
+   /*
+    */
   
         switch(flag) {
             case 1:    //shoot:
@@ -97,21 +114,50 @@ public class BallShooter implements RobotMap {
                 break;
         }
     }
-    public boolean elevator() {
-    if(shooter.leftTrigger() >= 0.5 && !elevatorUp.get()) {
+    public void elevator() {
+    	
+    	buttonUp = sharedgamePad.lBumper();
+    	buttonDown = sharedgamePad.xButton();
+    	
+    if(shooter.leftTrigger() >= 0.5 || buttonUp == true)
+        upTrue = true;
+    else upTrue = false;
+        
+    if(shooter.rightTrigger() >= 0.5 || buttonDown == true)
+        downTrue = true;
+    else downTrue = false;
+    	
+    if(upTrue && !elevatorUp.get()) {
     Elevator.set(0.75);
     }
-    else if(shooter.rightTrigger() >= 0.5 && !elevatorDown.get()) {
+    else if(downTrue && !elevatorDown.get()) {
     Elevator.set(-0.75);
     }
     else {
     Elevator.set(0);
     }
-    boolean shootPosition = elevatorDown.get();
-    return shootPosition;
-    }
+    
+    return;
     
     }
-    
-    	
 
+    public void elevatorDown(){
+    	
+    	if(!elevatorDown.get())
+    		Elevator.set(-.75);
+    	else Elevator.set(0);
+    	
+    	topShooterMotor.set(TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE);
+        bottomShooterMotor.set(BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE);
+        
+        if(i <= 25) {
+            i++;
+            rollerMotor.set(Relay.Value.kOff);
+        }else{
+            rollerMotor.set(Relay.Value.kForward);
+        }
+        
+    	return;
+    }
+
+}

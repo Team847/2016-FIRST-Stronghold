@@ -20,6 +20,9 @@ public class DriveTrain implements RobotMap {
 	double backRadius;
 	double leftRadius;
 	double preMagnitude;
+	
+	boolean dbuttonUp = false;
+	boolean dbuttonDown = false;
 
 	int posDif;
 
@@ -39,10 +42,17 @@ public class DriveTrain implements RobotMap {
 
 	public void driveController() {
 
-	//if(!gamePad1.startB() && !gamePad1.backB()) {
+	//if(!gamePad1.startB() && !gamePad1.backB())
 		double feedsd = gamePad1.quadraticLY();
     	double feeddir = ferrariWheel.quadraticLX(); 
-
+    	if(gamePad1.lBumper())
+    		dbuttonUp = true;
+    	else dbuttonUp = false;
+    	
+    	if(gamePad1.xButton())
+    		dbuttonDown = true;
+    	else dbuttonDown = false;
+    	
     	turnWheel(feeddir);
 		driveWheels(feedsd);
 	//}
@@ -147,6 +157,7 @@ public class DriveTrain implements RobotMap {
 		}
 		else if(gamePad1.startB()) {
 			//backMotor.setPosition(1400);
+
 		}	
 	}
 }

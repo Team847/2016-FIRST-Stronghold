@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team847.robot;
 
 import edu.wpi.first.wpilibj.*;
@@ -36,7 +35,7 @@ public class Robot extends IterativeRobot implements RobotMap{
     	speedControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
     	steeringControl = new GamePad(TURN_CONTROL);
     	scrubTrain = new DriveTrain(speedControl, steeringControl);
-    	shooter2 = new BallShooter(controller2);
+    	shooter2 = new BallShooter(controller2, speedControl);
     	arm = new ObstacleArmElbow(controller2);
 //    	Camera.startAutomaticCapture("cam0");
     }
@@ -58,6 +57,7 @@ public class Robot extends IterativeRobot implements RobotMap{
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	
     }
 
     /***
@@ -68,8 +68,8 @@ public class Robot extends IterativeRobot implements RobotMap{
 //		double feeddir = turnControl.rightStickX();     		
 //		scrubTrain.turnWheel(feeddir);
 //		scrubTrain.driveWheels(feedsd);
-		shooter2.shootingMethod();
-    	arm.armManager();
+		shooter2.runShooter();
+    	arm.moveArm();
     	scrubTrain.driveController();
         Timer.delay(0.005);
         
@@ -80,7 +80,6 @@ public class Robot extends IterativeRobot implements RobotMap{
      */
     public void testPeriodic() {
 //    	scrubTrain.testMotor();
-    	arm.armTest();
 //    	Timer.delay(0.005);
 }
 }
