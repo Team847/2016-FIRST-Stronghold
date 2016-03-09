@@ -77,6 +77,7 @@ public class DriveTrain implements RobotMap {
 			posDif = MAX_POSITION - START_POSITION;
 	
 		int turn = (int)(direction * posDif) + START_POSITION;
+		System.out.println("turnpot: " + turnMotor.getAnalogInRaw());
 
 		moveToTarget(turn);
 	}
@@ -86,6 +87,7 @@ public class DriveTrain implements RobotMap {
 		double speed = 0;
 
 		int currentPosition = turnMotor.getAnalogInRaw();
+		System.out.println("turnpot: " + currentPosition);
 		int distanceToTarget = Math.abs(targetPosition - currentPosition);
 	
 		if(distanceToTarget > 100)

@@ -57,7 +57,7 @@ public class BallShooter implements RobotMap {
     	
     	elevator();
     	
-    	if(elevatorDown.get())
+    	//if(elevatorDown.get())
     		shootingMethod();
     // runs the elevator you check the button you used for the shooter Elevator
     return;
@@ -86,7 +86,7 @@ public class BallShooter implements RobotMap {
                 topShooterMotor.set(TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE);
                 bottomShooterMotor.set(BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE);
                 
-                if(i <= 25) {
+                if(i <= 50) {
                     i++;
                     rollerMotor.set(Relay.Value.kOff);
                 }else{
