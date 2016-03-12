@@ -14,6 +14,9 @@ public class ObstacleArmElbow implements RobotMap{
 	boolean is15broke = false;
 	boolean isHeightBroke = false;
 	
+	AnalogInput sPot = new AnalogInput(ANALOG_IN_SHOULDER);
+	AnalogInput ePot = new AnalogInput(ANALOG_IN_ELBOW);
+		
 	public ObstacleArmElbow(GamePad xbox){
 		gamePad = xbox;
 		
@@ -23,19 +26,25 @@ public class ObstacleArmElbow implements RobotMap{
 	
 	public void moveArm (){
 
-		ePosition = Elbow.getAnalogInPosition();
-		sPosition = Shoulder.getAnalogInPosition();
+		ePosition = ePot.getVoltage();
+		sPosition = sPot.getVoltage();
 
-		MaxReachCheck();
+		//MaxReachCheck();
 		shoulderJoint();
 		elbowJoint();
 	}
 	
 	public void shoulderJoint(){
 				
-		double reach_S = -gamePad.rightStickY();
+		double reach_S = -gamePad.rightStickY() * 0.5;
+
+		if(sPosition >= MAX_S && reach_S > 0)
+		    reach_S = 0;
 		
-		if(is15broke && reach_S > 0)
+		else if(sPosition <= MIN_S && reach_S < 0)
+			reach_S = 0;
+		
+/*		if(is15broke && reach_S > 0)
 			reach_S = 0;
 
 		if(isHeightBroke && reach_S < 0)
@@ -47,15 +56,21 @@ public class ObstacleArmElbow implements RobotMap{
 			else if(sPosition <= MIN_S && reach_S < 0)
 				reach_S = 0;
 		}
-		
+*/
+		//System.out.println("Shdlr:" + reach_S);
+		//System.out.println("ShdlrPot: " + sPosition);
+
 		Shoulder.set(reach_S);
 	}
 		
 	public void elbowJoint(){
 		
-		double reach_E = gamePad.leftStickY();
+		double reach_E = gamePad.leftStickY() * 0.5;
+
+		if( ePosition <= MIN_E  && reach_E < 0)
+			reach_E = 0;
 		
-		if(is15broke){
+/*		if(is15broke){
 			if(elbowQuadrantOne && reach_E > 0)
 				reach_E = 0;
 			else if(!elbowQuadrantOne && reach_E < 0)
@@ -66,12 +81,15 @@ public class ObstacleArmElbow implements RobotMap{
 			reach_E = 0;
 		
 		if(reach_E > 0){
-			if(ePosition <= MIN_E && reach_E < 0)
+			if(ePosition <= MIN_E && reach_E < 0) 
 				reach_E = 0;
 			else if(ePosition >= MAX_E && reach_E > 0)
 				reach_E = 0;
 		}
-
+*/
+		
+		//System.out.println("Elbow:" + reach_E);
+		//System.out.println("ElbowPot: " + ePosition);
 		Elbow.set(reach_E);
 	}
 	

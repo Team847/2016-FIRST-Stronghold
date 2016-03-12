@@ -12,9 +12,9 @@ public interface RobotMap {
 	public final static int TURN_MOTOR = 3;
 	
 	// Pot positioning data
-	public final static int START_POSITION = 495;
-	public final static int MIN_POSITION = 153;
-	public final static int MAX_POSITION = 843;
+	public final static int START_POSITION = 552;
+	public final static int MIN_POSITION = 194;
+	public final static int MAX_POSITION = 908;
 	 
 	//==================Robot.Java=============================\\
 	
@@ -33,17 +33,17 @@ public interface RobotMap {
 	//=================================ARM=================================//
 	
 
-	public final static int CANTALON_ELBOW = 4;
+	public final static int CANTALON_ELBOW = 1;
 	public final static int CANTALON_SHOULDER = 2;
 	
 	public final static double ELBOW_SPEED = .8;
 	public final static double SHOULDER_SPEED = .5;
 	
-	public final static double MAX_S = 2.539; // "lower limit", "flat", "flat out"
-	public final static double MIN_S = 2.448; // "upright", "90 degrees", "standing tall"
+	public final static double MAX_S = 3.07; // "lower limit", "flat", "flat out"
+	public final static double MIN_S = 2.82; // "upright", "90 degrees", "standing tall"
 	
-	public final static double MIN_E = 1.540;
-	public final static double MAX_E = 4.796;
+	public final static double MIN_E = 1.4;
+	public final static double MAX_E = 6.0;
 	
 	public final static double MAX_HEIGHT = 54 - 7.5;
 	public final static double MAX_REACH = 29;

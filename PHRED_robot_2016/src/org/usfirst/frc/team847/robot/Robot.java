@@ -17,6 +17,7 @@ public class Robot extends IterativeRobot implements RobotMap{
 	GamePad speedControl;
 	GamePad controller2;
 	GamePad steeringControl;
+	AutonomusForwards autonomous;
 	DriveTrain scrubTrain;
     BallShooter shooter2;
 	ObstacleArmElbow arm;
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot implements RobotMap{
     	scrubTrain = new DriveTrain(speedControl, steeringControl);
     	shooter2 = new BallShooter(controller2, speedControl);
     	arm = new ObstacleArmElbow(controller2);
+    	autonomous = new AutonomusForwards(scrubTrain);
 //    	Camera.startAutomaticCapture("cam0");
     }
     
@@ -57,7 +59,7 @@ public class Robot extends IterativeRobot implements RobotMap{
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	
+    	autonomous.AutoDrive();
     }
 
     /***

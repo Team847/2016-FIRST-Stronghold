@@ -45,14 +45,17 @@ public class DriveTrain implements RobotMap {
 	//if(!gamePad1.startB() && !gamePad1.backB())
 		double feedsd = gamePad1.quadraticLY();
     	double feeddir = ferrariWheel.quadraticLX(); 
-    	if(gamePad1.lBumper())
+    	
+    	//System.out.println("wheel: "+ feeddir);
+
+/*    	if(gamePad1.lBumper())
     		dbuttonUp = true;
     	else dbuttonUp = false;
     	
     	if(gamePad1.xButton())
     		dbuttonDown = true;
     	else dbuttonDown = false;
-    	
+*/    	
     	turnWheel(feeddir);
 		driveWheels(feedsd);
 	//}
@@ -77,7 +80,7 @@ public class DriveTrain implements RobotMap {
 			posDif = MAX_POSITION - START_POSITION;
 	
 		int turn = (int)(direction * posDif) + START_POSITION;
-		System.out.println("turnpot: " + turnMotor.getAnalogInRaw());
+		//System.out.println("turnpot: " + turnMotor.getAnalogInRaw());
 
 		moveToTarget(turn);
 	}
@@ -87,7 +90,7 @@ public class DriveTrain implements RobotMap {
 		double speed = 0;
 
 		int currentPosition = turnMotor.getAnalogInRaw();
-		System.out.println("turnpot: " + currentPosition);
+//		System.out.println("turnpot: " + currentPosition);
 		int distanceToTarget = Math.abs(targetPosition - currentPosition);
 	
 		if(distanceToTarget > 100)
@@ -105,7 +108,7 @@ public class DriveTrain implements RobotMap {
 	
 		if (currentPosition > targetPosition)
 			speed *= -1;
-
+		//System.out.println("tspeed: " + speed);
 		turnMotor.set(speed);
 	}
 
