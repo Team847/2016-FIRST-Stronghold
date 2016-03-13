@@ -19,10 +19,8 @@ public class DriveTrain implements RobotMap {
 	double rightRadius;
 	double backRadius;
 	double leftRadius;
-	double preMagnitude;
-	
-	boolean dbuttonUp = false;
-	boolean dbuttonDown = false;
+
+	boolean driveToggleAlreadyPressed;
 
 	int posDif;
 
@@ -34,39 +32,39 @@ public class DriveTrain implements RobotMap {
 		rightMotor = new Victor(RIGHT_MOTOR);
 		turnMotor = new CANTalon(TURN_MOTOR);
 		leftMotor.setInverted(true);
-	
+			
 		backMotor.set(0);
 		leftMotor.set(0);
 		rightMotor.set(0);
+		
+		driveToggleAlreadyPressed = false;
 	}
 
 	public void driveController() {
 
-	//if(!gamePad1.startB() && !gamePad1.backB())
 		double feedsd = gamePad1.quadraticLY();
     	double feeddir = ferrariWheel.quadraticLX(); 
     	
     	//System.out.println("wheel: "+ feeddir);
 
-/*    	if(gamePad1.lBumper())
-    		dbuttonUp = true;
-    	else dbuttonUp = false;
-    	
-    	if(gamePad1.xButton())
-    		dbuttonDown = true;
-    	else dbuttonDown = false;
-*/    	
+    	if(ferrariWheel.lBumper()){
+    		if(!driveToggleAlreadyPressed){
+        		feedsd  *= -1; 
+        		feeddir *= -1;
+    		}
+    		driveToggleAlreadyPressed = true;
+    	} else
+    		driveToggleAlreadyPressed = false;
+   		
     	turnWheel(feeddir);
 		driveWheels(feedsd);
-	//}
-	/*else {
-		pivot();
-	}*/
 	}
 	
 	public void testMotor(){
 		turnMotor.set(0.5);
 	}
+	
+	
 //This was for testing stuff but it now is dead X |D
 //ORCAS WILL NEVER DIE    :)     ORCAS!!!!!!!!!!
 // NOT This part under it though
@@ -90,7 +88,6 @@ public class DriveTrain implements RobotMap {
 		double speed = 0;
 
 		int currentPosition = turnMotor.getAnalogInRaw();
-//		System.out.println("turnpot: " + currentPosition);
 		int distanceToTarget = Math.abs(targetPosition - currentPosition);
 	
 		if(distanceToTarget > 100)
