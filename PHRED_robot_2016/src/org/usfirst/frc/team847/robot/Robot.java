@@ -1,8 +1,8 @@
 package org.usfirst.frc.team847.robot;
 
 import edu.wpi.first.wpilibj.*;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Robot extends IterativeRobot implements RobotMap{
 
-//	CameraServer Camera;
+	//CameraServer Camera;
 	GamePad speedControl;
 	GamePad controller2;
 	GamePad steeringControl;
@@ -29,9 +29,9 @@ public class Robot extends IterativeRobot implements RobotMap{
      */
 
     public void robotInit() {
-//    	  Camera = CameraServer.getInstance();
-//        Camera.setQuality(50);
-//        Camera.startAutomaticCapture( /*name to be found*/);
+    	//Camera = CameraServer.getInstance();
+        //Camera.setQuality(50);
+        //Camera.startAutomaticCapture( /*name to be found*/);
     	controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
     	speedControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
     	steeringControl = new GamePad(TURN_CONTROL);
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot implements RobotMap{
     	shooter2 = new BallShooter(controller2, speedControl);
     	arm = new ObstacleArmElbow(controller2);
     	autonomous = new AutonomusForwards(scrubTrain);
-//    	Camera.startAutomaticCapture("cam0");
+    	//Camera.startAutomaticCapture("cam0");
     }
     
 	/**

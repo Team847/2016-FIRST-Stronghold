@@ -19,7 +19,7 @@ public void AutoDrive(){
 	
 //50 on the timer = 1 secconds. so 50 = 1, 50 = 1, 50 = 1, and 50 = 1
 //but we don't want to be going streight for more than 8 secconds.  (Probobly?)
-if(timer <= 300){
+if(timer <= 250){
 	AutoDrive.turnWheel(0);
 	AutoDrive.driveWheels(-0.6);
 	timer++;
