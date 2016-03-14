@@ -36,8 +36,8 @@ public interface RobotMap {
 	public final static int CANTALON_ELBOW = 1;
 	public final static int CANTALON_SHOULDER = 2;
 	
-	public final static double ELBOW_SPEED = .8;
-	public final static double SHOULDER_SPEED = .5;
+	public final static double ELBOW_SPEED_ADJ = .8;
+	public final static double SHOULDER_SPEED_ADJ = .5;
 	
 	public final static double MAX_S = 3.07; // "lower limit", "flat", "flat out"
 	public final static double MIN_S = 2.82; // "upright", "90 degrees", "standing tall"
