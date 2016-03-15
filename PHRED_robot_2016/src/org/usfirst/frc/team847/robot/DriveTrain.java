@@ -21,6 +21,7 @@ public class DriveTrain implements RobotMap {
 	double leftRadius;
 
 	boolean driveToggleAlreadyPressed;
+	boolean driveTwoWheelForward;
 
 	int posDif;
 
@@ -38,23 +39,32 @@ public class DriveTrain implements RobotMap {
 		rightMotor.set(0);
 		
 		driveToggleAlreadyPressed = false;
+		driveTwoWheelForward = false;
 	}
 
 	public void driveController() {
 
-		double feedsd = gamePad1.quadraticLY();
-    	double feeddir = ferrariWheel.quadraticLX(); 
+    	double feedsd  = gamePad1.quadraticLY();
+    	double feeddir = ferrariWheel.quadraticLX();
     	
     	//System.out.println("wheel: "+ feeddir);
 
+    	// Flip which end of the robot is forward
     	if(ferrariWheel.lBumper()){
     		if(!driveToggleAlreadyPressed){
-        		feedsd  *= -1; 
-        		feeddir *= -1;
+    			if(driveTwoWheelForward)
+    				driveTwoWheelForward = false;
+    			else
+    				driveTwoWheelForward = true;
     		}
     		driveToggleAlreadyPressed = true;
     	} else
     		driveToggleAlreadyPressed = false;
+
+    	if(!driveTwoWheelForward){
+    		feedsd  *= -1;
+    		feeddir *= -1;
+    	}
    		
     	turnWheel(feeddir);
 		driveWheels(feedsd);
