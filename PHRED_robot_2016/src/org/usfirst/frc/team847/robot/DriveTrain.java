@@ -39,7 +39,7 @@ public class DriveTrain implements RobotMap {
 		rightMotor.set(0);
 		
 		driveToggleAlreadyPressed = false;
-		driveTwoWheelForward = false;
+		driveTwoWheelForward = true;
 	}
 
 	public void driveController() {
@@ -65,6 +65,8 @@ public class DriveTrain implements RobotMap {
     		feedsd  *= -1;
     		feeddir *= -1;
     	}
+    	
+    	//System.out.println("wheel: "+ feeddir);
    		
     	turnWheel(feeddir);
 		driveWheels(feedsd);
