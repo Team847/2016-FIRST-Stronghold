@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot implements RobotMap{
 
-	//CameraServer Camera;
+	CameraServer Camera;
 	GamePad speedControl;
 	GamePad controller2;
 	GamePad steeringControl;
@@ -21,25 +21,22 @@ public class Robot extends IterativeRobot implements RobotMap{
 	DriveTrain scrubTrain;
     BallShooter shooter2;
 	ObstacleArmElbow arm;
-    double up;
-    double down;
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
 
     public void robotInit() {
-    	//Camera = CameraServer.getInstance();
-        //Camera.setQuality(50);
-        //Camera.startAutomaticCapture( /*name to be found*/);
-    	controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
+    	Camera = CameraServer.getInstance();
+        Camera.setQuality(50);
+        Camera.startAutomaticCapture("cam0");
+        controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
     	speedControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
     	steeringControl = new GamePad(TURN_CONTROL);
     	scrubTrain = new DriveTrain(speedControl, steeringControl);
     	shooter2 = new BallShooter(controller2, speedControl);
     	arm = new ObstacleArmElbow(controller2);
     	autonomous = new AutonomusForwards(scrubTrain);
-    	//Camera.startAutomaticCapture("cam0");
     }
     
 	/**
@@ -65,16 +62,15 @@ public class Robot extends IterativeRobot implements RobotMap{
     /***
      * This function is called periodically during operator control
      */
+    public void teleopInit(){
+
+    }
+    
     public void teleopPeriodic() {
-//    	double feedsd = turnControl.quadraticLY();
-//		double feeddir = turnControl.rightStickX();     		
-//		scrubTrain.turnWheel(feeddir);
-//		scrubTrain.driveWheels(feedsd);
 		shooter2.runShooter();
     	arm.moveArm();
     	scrubTrain.driveController();
         Timer.delay(0.005);
-        
     }
     
     /**

@@ -90,7 +90,7 @@ public class DriveTrain implements RobotMap {
 			posDif = MAX_POSITION - START_POSITION;
 	
 		int turn = (int)(direction * posDif) + START_POSITION;
-		//System.out.println("turnpot: " + turnMotor.getAnalogInRaw());
+		System.out.println("turnpot: " + turnMotor.getAnalogInRaw());
 
 		moveToTarget(turn);
 	}

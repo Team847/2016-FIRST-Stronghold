@@ -12,14 +12,14 @@ public interface RobotMap {
 	public final static int TURN_MOTOR = 3;
 	
 	// Pot positioning data for COMPETITION robot
-	public final static int START_POSITION = 552;
-	public final static int MIN_POSITION = 194;
-	public final static int MAX_POSITION = 908;
-	 
-	// Pot positioning data for PRACTICE robot
 	//public final static int START_POSITION = 552;
 	//public final static int MIN_POSITION = 194;
 	//public final static int MAX_POSITION = 908;
+	 
+	// Pot positioning data for PRACTICE robot
+	public final static int START_POSITION = 575;
+	public final static int MIN_POSITION = 232;
+	public final static int MAX_POSITION = 928;
 
 	//==================Robot.Java=============================\\
 	
@@ -56,10 +56,10 @@ public interface RobotMap {
 	//public final static double MIN_E = 0.0;
 	//public final static double MAX_E = 6.0;
 
-	public final static double MAX_HEIGHT = 54 - 7.5;
-	public final static double MAX_REACH = 29;
-	public final static double ARM_BICEP = 26;
-	public final static double ARM_TRICEP = 27.5;
+	public final static double MAX_HEIGHT = 54 - 9.5;
+	public final static double MAX_REACH = 28.5;
+	public final static double ARM_BICEP = 24.5;
+	public final static double ARM_TRICEP = 26.5;
 	
 	public final static double SHOULDER_STALL = 0;
 	public final static double ELBOW_STALL = 0;
