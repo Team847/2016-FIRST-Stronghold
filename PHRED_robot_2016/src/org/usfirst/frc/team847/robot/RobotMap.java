@@ -1,6 +1,13 @@
 package org.usfirst.frc.team847.robot;
 public interface RobotMap {
 	
+	// === Autonomous ===
+	
+	public final static String DEFAULT_AUTO = "Default";
+	public final static String DRIVE_FORWARD_AUTO = "Drive Forward";
+	
+	
+	
 	//==========================DRIVE TRAIN======================//	
 	
 	public final static double FRAME_LENGTH = 23;
@@ -45,18 +52,23 @@ public interface RobotMap {
 	public final static double SHOULDER_SPEED_ADJ = .5;
 
 	// Pot positioning data for COMPETITION robot
-	public final static double MAX_S = 3.07; // "lower limit", "flat", "flat out"
-	public final static double MIN_S = 2.82; // "upright", "90 degrees", "standing tall"
-	public final static double MIN_E = 1.4;
-	public final static double MAX_E = 6.0;
+	//public final static double MAX_S = 3.07; // "lower limit", "flat", "flat out"
+	//public final static double MIN_S = 2.82; // "upright", "90 degrees", "standing tall"
+	//public final static double MIN_E = 1.4;
+	//public final static double MAX_E = 6.0;
 	
 	// Pot positioning data for PRACTICE robot
-	//public final static double MAX_S = 0.0;
-	//public final static double MIN_S = 6.0;
-	//public final static double MIN_E = 0.0;
-	//public final static double MAX_E = 6.0;
+	public final static double MAX_S = 3.20; //Verify
+	public final static double MIN_S = 2.24; // Verticle
+	public final static double SVERTICAL = 2.37;
+	
+	//elbow: 
+	public final static double MIN_E = 0.14; // verify?
+	public final static double MAX_E = 3.34; // Verticle 90 deg: 2.14
+	public final static double EVERTICAL = 3.34;
+	public final static double EHORIZONTAL = 1.85;
 
-	public final static double MAX_HEIGHT = 54 - 9.5;
+	public final static double MAX_HEIGHT = 54 - 9.0;
 	public final static double MAX_REACH = 28.5;
 	public final static double ARM_BICEP = 24.5;
 	public final static double ARM_TRICEP = 26.5;

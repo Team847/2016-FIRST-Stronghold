@@ -12,12 +12,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot implements RobotMap{
-
 	CameraServer Camera;
 	GamePad speedControl;
 	GamePad controller2;
 	GamePad steeringControl;
+
+	String autoSelected;
+    SendableChooser chooser;
 	AutonomusForwards autonomous;
+	BuiltInAccelerometer accelerometer;
+
 	DriveTrain scrubTrain;
     BallShooter shooter2;
 	ObstacleArmElbow arm;
@@ -30,12 +34,22 @@ public class Robot extends IterativeRobot implements RobotMap{
     	Camera = CameraServer.getInstance();
         Camera.setQuality(50);
         Camera.startAutomaticCapture("cam0");
+
         controller2 = new GamePad(OBJ_MANIP_GAMEPAD);// give controller2 in GamePad the variable 2
     	speedControl = new GamePad(DRIVE_GAMEPAD);// give controller1 in GamePad the variable 1
     	steeringControl = new GamePad(TURN_CONTROL);
+
     	scrubTrain = new DriveTrain(speedControl, steeringControl);
     	shooter2 = new BallShooter(controller2, speedControl);
     	arm = new ObstacleArmElbow(controller2);
+    	
+    	accelerometer = new BuiltInAccelerometer();
+    	
+        chooser = new SendableChooser();
+        chooser.addDefault("Default", DEFAULT_AUTO);
+        chooser.addObject("Drive Forward", DRIVE_FORWARD_AUTO);
+        SmartDashboard.putData("Auto choices", chooser);
+
     	autonomous = new AutonomusForwards(scrubTrain);
     }
     
@@ -49,14 +63,15 @@ public class Robot extends IterativeRobot implements RobotMap{
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-
+    	autonomous.resetAuto();
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	autonomous.AutoDrive();
+    	autonomous.autoControl((String)chooser.getSelected());
+    	//System.out.println("Accel Y: " + accelerometer.getY());
     }
 
     /***
@@ -67,9 +82,12 @@ public class Robot extends IterativeRobot implements RobotMap{
     }
     
     public void teleopPeriodic() {
-		shooter2.runShooter();
+		//shooter2.runShooter();
     	arm.moveArm();
-    	scrubTrain.driveController();
+    	//scrubTrain.driveController();
+    	
+    	//System.out.println("Accel Y: " + accelerometer.getY());
+    	
         Timer.delay(0.005);
     }
     
@@ -79,5 +97,6 @@ public class Robot extends IterativeRobot implements RobotMap{
     public void testPeriodic() {
 //    	scrubTrain.testMotor();
 //    	Timer.delay(0.005);
+    	arm.armOverride();
 }
 }
