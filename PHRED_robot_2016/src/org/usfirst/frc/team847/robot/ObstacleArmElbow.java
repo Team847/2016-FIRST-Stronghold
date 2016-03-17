@@ -97,14 +97,14 @@ public class ObstacleArmElbow implements RobotMap{
 		
 		if(isHeightBroke && elbowQuadrantOne && reach_E > 0)
 			reach_E = 0;
-/*		
+		
 		if(Math.abs(reach_E) > 0){
 			if(ePosition <= MIN_E && reach_E < 0) 
 				reach_E = 0;
 			else if(ePosition >= MAX_E && reach_E > 0)
 				reach_E = 0;
 		}
-*/		
+		
 		//System.out.println("ElbowPot: " + ePosition);
 		
 		Elbow.set(reach_E);
