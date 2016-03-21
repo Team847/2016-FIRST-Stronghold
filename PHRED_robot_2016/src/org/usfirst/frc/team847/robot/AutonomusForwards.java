@@ -28,9 +28,9 @@ public class AutonomusForwards implements RobotMap  {
 	public void autoDrive(){
 		//50 on the timer = 1 secconds. so 50 = 1, 50 = 1, 50 = 1, and 50 = 1
 		//but we don't want to be going streight for more than 8 secconds.  (Probobly?)
-		if(timer <= 250){
+		if(timer <= 200){
 			AutoDrive.turnWheel(0);
-			AutoDrive.driveWheels(-0.6);
+			AutoDrive.driveWheels(-0.7);
 			timer++;
 			//System.out.println(timer);
 		}else{

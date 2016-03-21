@@ -70,8 +70,9 @@ public class Robot extends IterativeRobot implements RobotMap{
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	autonomous.autoControl((String)chooser.getSelected());
+    	//autonomous.autoControl((String)chooser.getSelected());
     	//System.out.println("Accel Y: " + accelerometer.getY());
+    	autonomous.autoDrive();
     }
 
     /***
@@ -82,11 +83,11 @@ public class Robot extends IterativeRobot implements RobotMap{
     }
     
     public void teleopPeriodic() {
-		//shooter2.runShooter();
+		shooter2.runShooter();
     	arm.moveArm();
-    	//scrubTrain.driveController();
+    	scrubTrain.driveController();
     	
-    	//System.out.println("Accel Y: " + accelerometer.getY());
+    	System.out.println("Accel Y: " + accelerometer.getY());
     	
         Timer.delay(0.005);
     }
