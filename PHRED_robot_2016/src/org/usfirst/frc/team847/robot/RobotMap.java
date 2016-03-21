@@ -24,9 +24,9 @@ public interface RobotMap {
 	//public final static int MAX_POSITION = 908;
 	 
 	// Pot positioning data for PRACTICE robot
-	public final static int START_POSITION = 575;
-	public final static int MIN_POSITION = 232;
-	public final static int MAX_POSITION = 928;
+	public final static int START_POSITION = 351;
+	public final static int MIN_POSITION = 8;
+	public final static int MAX_POSITION = 826;
 
 	//==================Robot.Java=============================\\
 	
@@ -47,6 +47,7 @@ public interface RobotMap {
 
 	public final static int CANTALON_ELBOW = 1;
 	public final static int CANTALON_SHOULDER = 2;
+	public final static int CANTALON_LIGHT = 4;
 	
 	public final static double ELBOW_SPEED_ADJ = .8;
 	public final static double SHOULDER_SPEED_ADJ = .5;

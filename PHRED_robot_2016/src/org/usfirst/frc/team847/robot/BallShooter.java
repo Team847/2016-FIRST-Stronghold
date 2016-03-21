@@ -23,6 +23,7 @@ public class BallShooter implements RobotMap {
     Victor bottomShooterMotor;
     Victor topShooterMotor;
     DigitalInput lazer;
+	CANTalon aimLight;
     
     boolean buttonUp = false;
     boolean buttonDown = false;
@@ -45,6 +46,7 @@ public class BallShooter implements RobotMap {
 		shooter = objectManipulation;
 		sharedgamePad = sharedPad;
 //   	tiltMotor = new Victor(3); Elevator
+		aimLight = new CANTalon(CANTALON_LIGHT);
 		bottomShooterMotor = new Victor(2);
 		topShooterMotor = new Victor(1);
 		rollerMotor = new Relay(3);
@@ -54,18 +56,18 @@ public class BallShooter implements RobotMap {
 		elevatorDown = new DigitalInput(2);
     }
     public void runShooter(){
-    	
-    	elevator();
-    	
-    	//if(elevatorDown.get())
-    		shootingMethod();
-    // runs the elevator you check the button you used for the shooter Elevator
-    return;
+//    	elevator();
+    	shootingMethod();
     }
     
     public void shootingMethod() {
 
         //System.out.println("lazer = " + lazer.get(An Elevator));
+    	
+    	if(shooter.rightTrigger() > 0.5)
+    		aimLight.set(0.33);
+    	else
+    		aimLight.set(0.0);
 
         if(shooter.lBumper()) {
             flag = INTAKE;
@@ -76,10 +78,6 @@ public class BallShooter implements RobotMap {
         }else{
             flag = 0;
         }
-   /**Hello
-   */
-   /*
-    */
   
         switch(flag) {
             case 1:    //shoot:
