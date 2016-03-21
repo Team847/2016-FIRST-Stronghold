@@ -32,12 +32,22 @@ public class ObstacleArmElbow implements RobotMap{
 	public void armOverride(){
 		double reach_S = -gamePad.rightStickY() * SHOULDER_SPEED_ADJ;
 		double reach_E = gamePad.leftStickY() * ELBOW_SPEED_ADJ;
+		ePosition = ePot.getAverageVoltage();
+		sPosition = sPot.getAverageVoltage();
+		
+		if(sPosition >= MAX_S && reach_S > 0)
+			reach_S = 0;
+		else if(sPosition <= MIN_S && reach_S < 0)
+			reach_S = 0;
+
+		if( ePosition <= MIN_E  && reach_E < 0)
+			reach_E = 0;
+		
 		Shoulder.set(reach_S);
 		Elbow.set(reach_E);
 	}
 	
 	public void moveArm (){
-
 		ePosition = ePot.getAverageVoltage();
 		sPosition = sPot.getAverageVoltage();
 
@@ -50,12 +60,6 @@ public class ObstacleArmElbow implements RobotMap{
 				
 		double reach_S = -gamePad.rightStickY() * SHOULDER_SPEED_ADJ;
 
-/*		if(sPosition >= MAX_S && reach_S > 0)
-		    reach_S = 0;
-		
-		else if(sPosition <= MIN_S && reach_S < 0)
-			reach_S = 0;
-*/		
 		if(is15broke && reach_S > 0)
 			reach_S = 0;
 
@@ -79,9 +83,6 @@ public class ObstacleArmElbow implements RobotMap{
 		
 		double reach_E = -gamePad.leftStickY() * ELBOW_SPEED_ADJ;
 
-/*		if( ePosition <= MIN_E  && reach_E < 0)
-			reach_E = 0;
-*/		
 		if(is15broke){
 			System.out.println("reach");
 			if(elbowQuadrantOne && reach_E < 0)
