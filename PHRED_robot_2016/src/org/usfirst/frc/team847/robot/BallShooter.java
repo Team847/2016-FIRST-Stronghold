@@ -65,7 +65,7 @@ public class BallShooter implements RobotMap {
         //System.out.println("lazer = " + lazer.get(An Elevator));
     	
     	if(shooter.rightTrigger() > 0.5)
-    		aimLight.set(0.33);
+    		aimLight.set(0.80);
     	else
     		aimLight.set(0.0);
 

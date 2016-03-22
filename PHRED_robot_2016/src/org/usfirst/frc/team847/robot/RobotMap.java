@@ -59,8 +59,8 @@ public interface RobotMap {
 	//public final static double MAX_E = 6.0;
 	
 	// Pot positioning data for PRACTICE robot
-	public final static double MAX_S = 3.20; //Verify
-	public final static double MIN_S = 2.24; // Verticle
+	public final static double MAX_S = 3.20; 
+	public final static double MIN_S = 2.24; 
 	public final static double SVERTICAL = 2.37;
 	
 	//elbow: 
@@ -70,7 +70,7 @@ public interface RobotMap {
 	public final static double EHORIZONTAL = 1.85;
 
 	public final static double MAX_HEIGHT = 54 - 9.0;
-	public final static double MAX_REACH = 28.5;
+	public final static double MAX_REACH = 31.5;//28.5;
 	public final static double ARM_BICEP = 24.5;
 	public final static double ARM_TRICEP = 26.5;
 	

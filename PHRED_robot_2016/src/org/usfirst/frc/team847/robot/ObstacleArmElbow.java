@@ -35,6 +35,9 @@ public class ObstacleArmElbow implements RobotMap{
 		ePosition = ePot.getAverageVoltage();
 		sPosition = sPot.getAverageVoltage();
 		
+		System.out.println("ShdlrPot: " + sPosition);
+		System.out.println("ElbowPot: " + ePosition);
+		
 		if(sPosition >= MAX_S && reach_S > 0)
 			reach_S = 0;
 		else if(sPosition <= MIN_S && reach_S < 0)
