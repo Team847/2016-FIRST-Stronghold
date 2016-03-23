@@ -31,7 +31,7 @@ public class ObstacleArmElbow implements RobotMap{
 	
 	public void armOverride(){
 		double reach_S = -gamePad.rightStickY() * SHOULDER_SPEED_ADJ;
-		double reach_E = gamePad.leftStickY() * ELBOW_SPEED_ADJ;
+		double reach_E = -gamePad.leftStickY() * ELBOW_SPEED_ADJ;
 		ePosition = ePot.getAverageVoltage();
 		sPosition = sPot.getAverageVoltage();
 		
@@ -117,8 +117,8 @@ public class ObstacleArmElbow implements RobotMap{
  	public void MaxReachCheck(){
 		
 		double ninetyDegrees = Math.PI/2; //Radians in 90 degrees
-		double VoltToAngle = 1.02;//ninetyDegrees / EVERTICAL - EHORIZONTAL; //Multiplier to convert volts to an angle, radians/volt
-
+		//double VoltToAngle = 1.02;//ninetyDegrees / EVERTICAL - EHORIZONTAL; //Multiplier to convert volts to an angle, radians/volt
+		double VoltToAngle = ninetyDegrees / (EVERTICAL - EHORIZONTAL); //1.92 
 		double angleOne = (sPosition - SVERTICAL) * VoltToAngle;
 		double lengthOne = ARM_BICEP * Math.sin(angleOne);
 		double heightOne = ARM_BICEP * Math.cos(angleOne);

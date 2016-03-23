@@ -10,7 +10,7 @@ public class AutonomusForwards implements RobotMap  {
 		AutoDrive = dt; //new DriveTrain(autoWheel, autoPad);
 	}
 
-	public void resetAuto(){
+	public void reset(){
 		timer = 0;
 	}
 	

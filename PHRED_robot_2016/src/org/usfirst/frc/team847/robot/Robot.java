@@ -1,6 +1,7 @@
 package org.usfirst.frc.team847.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot implements RobotMap{
+	CommandGroup autonomusComand;
+	SendableChooser autoChooser;
+	
 	CameraServer Camera;
 	GamePad speedControl;
 	GamePad controller2;
@@ -20,6 +24,8 @@ public class Robot extends IterativeRobot implements RobotMap{
 	String autoSelected;
     SendableChooser chooser;
 	AutonomusForwards autonomous;
+	AutonomusBall autonomous1;
+	Just_SHOOT autonomous2;
 	BuiltInAccelerometer accelerometer;
 
 	DriveTrain scrubTrain;
@@ -51,6 +57,11 @@ public class Robot extends IterativeRobot implements RobotMap{
         SmartDashboard.putData("Auto choices", chooser);
 
     	autonomous = new AutonomusForwards(scrubTrain);
+    	autonomous1 = new AutonomusBall();
+    	autonomous2 = new Just_SHOOT();
+    	//autoChooser = new SendableChooser();
+    	//autoChooser.addDefault("Shooting only", Just_SHOOT );
+    	
     }
     
 	/**
@@ -63,7 +74,9 @@ public class Robot extends IterativeRobot implements RobotMap{
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	autonomous.resetAuto();
+    	autonomous.reset();
+    	//autonomusComand = (CommandGroup)autoChooser.getSelected();
+    	//autonomusCommand.start();
     }
 
     /**
@@ -72,7 +85,7 @@ public class Robot extends IterativeRobot implements RobotMap{
     public void autonomousPeriodic() {
     	//autonomous.autoControl((String)chooser.getSelected());
     	//System.out.println("Accel Y: " + accelerometer.getY());
-    	autonomous.autoDrive();
+    	autonomous1.Autonomus();
     }
 
     /***

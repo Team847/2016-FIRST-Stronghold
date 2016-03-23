@@ -2,6 +2,7 @@ package org.usfirst.frc.team847.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain implements RobotMap {
 
@@ -22,7 +23,8 @@ public class DriveTrain implements RobotMap {
 
 	boolean driveToggleAlreadyPressed;
 	boolean driveTwoWheelForward;
-
+	boolean twoWheels;
+	boolean oneWheel;
 	int posDif;
 
 	public DriveTrain(GamePad driverPad, GamePad steeringWheel) {
@@ -70,6 +72,7 @@ public class DriveTrain implements RobotMap {
    		
     	turnWheel(feeddir);
 		driveWheels(feedsd);
+		smartDashboard();
 	}
 	
 	public void testMotor(){
@@ -94,7 +97,7 @@ public class DriveTrain implements RobotMap {
 
 		moveToTarget(turn);
 	}
-
+//
 	private void moveToTarget(int targetPosition){
 	
 		double speed = 0;
@@ -165,13 +168,15 @@ public class DriveTrain implements RobotMap {
 		rightMotor.set(speedRight);
 	}
 
-	public void pivot() {
-		if(gamePad1.backB()) {
-			//backMotor.setPosition(-1400);
-		}
-		else if(gamePad1.startB()) {
-			//backMotor.setPosition(1400);
-
-		}	
+	public void smartDashboard(){
+		if (driveTwoWheelForward)
+			SmartDashboard.putString("wheel mode", "Two Wheels mode enabled");
+		else 
+			SmartDashboard.putString("wheel mode", "One Wheel mode enabled ");
 	}
 }
+	
+	
+
+
+

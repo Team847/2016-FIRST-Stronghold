@@ -23,7 +23,7 @@ public class BallShooter implements RobotMap {
     Victor bottomShooterMotor;
     Victor topShooterMotor;
     DigitalInput lazer;
-	CANTalon aimLight;
+	Relay aimLight;
     
     boolean buttonUp = false;
     boolean buttonDown = false;
@@ -46,7 +46,7 @@ public class BallShooter implements RobotMap {
 		shooter = objectManipulation;
 		sharedgamePad = sharedPad;
 //   	tiltMotor = new Victor(3); Elevator
-		aimLight = new CANTalon(CANTALON_LIGHT);
+		aimLight = new Relay(2);
 		bottomShooterMotor = new Victor(2);
 		topShooterMotor = new Victor(1);
 		rollerMotor = new Relay(3);
@@ -65,9 +65,9 @@ public class BallShooter implements RobotMap {
         //System.out.println("lazer = " + lazer.get(An Elevator));
     	
     	if(shooter.rightTrigger() > 0.5)
-    		aimLight.set(0.80);
+    		aimLight.set(Relay.Value.kForward);
     	else
-    		aimLight.set(0.0);
+    		aimLight.set(Relay.Value.kOff);
 
         if(shooter.lBumper()) {
             flag = INTAKE;
