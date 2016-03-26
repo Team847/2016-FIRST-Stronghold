@@ -85,7 +85,8 @@ public class Robot extends IterativeRobot implements RobotMap{
     public void autonomousPeriodic() {
     	//autonomous.autoControl((String)chooser.getSelected());
     	//System.out.println("Accel Y: " + accelerometer.getY());
-    	autonomous1.Autonomus();
+    	//autonomous.autoControl(autoSelected);
+    	autonomous.autoDrive();
     }
 
     /***

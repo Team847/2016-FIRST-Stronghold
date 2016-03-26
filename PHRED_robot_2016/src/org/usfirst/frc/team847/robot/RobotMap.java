@@ -19,9 +19,9 @@ public interface RobotMap {
 	public final static int TURN_MOTOR = 3;
 	
 	// Pot positioning data for COMPETITION robot
-	public final static int START_POSITION = 561;
-	public final static int MIN_POSITION = 185;
-	public final static int MAX_POSITION = 925;
+	public final static int START_POSITION = 567;
+	public final static int MIN_POSITION = 202;
+	public final static int MAX_POSITION = 938;
 	 
 	// Pot positioning data for PRACTICE robot
 	//public final static int START_POSITION = 351;
@@ -36,8 +36,8 @@ public interface RobotMap {
 	
 	//============================Ball shooter===========//
 	 
-	 public final static double BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE = -0.97;
-	 public final static double TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE = 0.7;
+	 public final static double BOTTOM_SHOOTER_MOTOR_SHOOTING_ROUTINE = -1.0;
+	 public final static double TOP_SHOOTER_MOTOR_SHOOTING_ROUTINE = 1.0;
 	 public final static int SHOOT = 1;
 	 public final static int EXPELL = 2;
 	 public final static int INTAKE = 3;
